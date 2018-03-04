@@ -48,7 +48,7 @@ public class TimeNamesGerman {
         for (int i = 0; i < times.length; i++) {
             times[i] = new List[12];
             for (int j = 0; j < times[i].length; j++) {
-                times[i][j] = new LinkedList<String>();
+                times[i][j] = new LinkedList<>();
             }
         }
 

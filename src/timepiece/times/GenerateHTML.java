@@ -23,7 +23,7 @@ public class GenerateHTML {
         for (int hour = 0; hour < strings.length; hour++) {
             patterns[hour] = new List[strings[hour].length];
             for (int minute = 0; minute < strings[hour].length; minute++) {
-                patterns[hour][minute] = new LinkedList<Pattern>();
+                patterns[hour][minute] = new LinkedList<>();
 
                 for (String time : strings[hour][minute]) {
                     String[] words = time.split(" ");
@@ -63,7 +63,7 @@ public class GenerateHTML {
         FileWriter htmlOut = new FileWriter("visu.html");
 
         int solution = 0;
-        HashSet<Integer> splitPos = new HashSet<Integer>();
+        HashSet<Integer> splitPos = new HashSet<>();
         for (int hour = 0; hour < strings.length; hour++) {
             for (int minute = 0; minute < strings[hour].length; minute++) {
                 for (Pattern pattern : patterns[hour][minute]) {

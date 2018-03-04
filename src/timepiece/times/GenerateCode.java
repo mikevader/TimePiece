@@ -15,7 +15,7 @@ public class GenerateCode {
         for (int hour = 0; hour < strings.length; hour++) {
             patterns[hour] = new List[strings[hour].length];
             for (int minute = 0; minute < strings[hour].length; minute++) {
-                patterns[hour][minute] = new LinkedList<Pattern>();
+                patterns[hour][minute] = new LinkedList<>();
 
                 for (String time : strings[hour][minute]) {
                     String[] words = time.split(" ");

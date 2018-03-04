@@ -28,7 +28,7 @@ public class GenAlg {
     Random rand = new Random();
     List<Pattern>[][] patterns = null;
     List<Pattern> wordPatterns = null;
-    HashSet<String> inclWords = new HashSet<String>();
+    HashSet<String> inclWords = new HashSet<>();
 
     public static void main(String[] args) {
         GenAlg gen = new GenAlg();
@@ -43,7 +43,7 @@ public class GenAlg {
         System.out.println("loading solution");
         loadSolution();
 
-        List<GenThread> threads = new LinkedList<GenThread>();
+        List<GenThread> threads = new LinkedList<>();
         for (int i = 0; i < 25; i++) {
             GenThread gt = new GenThread(this);
             gt.start();
@@ -109,14 +109,14 @@ public class GenAlg {
 
     @SuppressWarnings("unchecked")
     public void createPatterns(List<String>[][] strings) {
-        HashSet<Character> inclChar = new HashSet<Character>();
+        HashSet<Character> inclChar = new HashSet<>();
 
         patterns = new List[strings.length][];
 
         for (int hour = 0; hour < strings.length; hour++) {
             patterns[hour] = new List[strings[hour].length];
             for (int minute = 0; minute < strings[hour].length; minute++) {
-                patterns[hour][minute] = new LinkedList<Pattern>();
+                patterns[hour][minute] = new LinkedList<>();
                 for (String time : strings[hour][minute]) {
 
                     StringBuilder regex = new StringBuilder();
@@ -164,7 +164,7 @@ public class GenAlg {
         includedChar = charSet.toString().toCharArray();
         System.out.println(charSet.toString());
 
-        wordPatterns = new LinkedList<Pattern>();
+        wordPatterns = new LinkedList<>();
         for (String string : inclWords) {
             wordPatterns.add(Pattern.compile(".*" + string + ".*"));
         }
@@ -324,7 +324,7 @@ public class GenAlg {
         int checkedTimesOK = 0;
         int checkedTimesNOK = 0;
 
-        HashSet<Integer> splitPos = new HashSet<Integer>();
+        HashSet<Integer> splitPos = new HashSet<>();
         for (List<Pattern>[] pattern : patterns) {
             for (List<Pattern> aPattern : pattern) {
                 boolean oneFound = false;
