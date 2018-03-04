@@ -1,4 +1,6 @@
-package timepiece;
+package timepiece.times;
+
+import timepiece.TimeNamesGerman;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -78,7 +80,7 @@ public class GenerateHTML {
 								"<span class='time'>%2d:%02d</span>", hour + 1,
 								minute * 5));
 
-						htmlOut.write(String.format("<div class='clock'>"));
+						htmlOut.write(String.format("<div class='times'>"));
 						for (int i = 1; i <= matcher.groupCount(); i++) {
 							splitPos.add(matcher.start(i));
 							if (i % 2 == 1) {
@@ -104,6 +106,7 @@ public class GenerateHTML {
 			}
 		}
 
+		htmlOut.flush();
 		htmlOut.close();
 	}
 }

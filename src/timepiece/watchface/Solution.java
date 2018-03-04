@@ -1,4 +1,4 @@
-package timepiece;
+package timepiece.watchface;
 
 import java.util.LinkedList;
 import java.util.List;

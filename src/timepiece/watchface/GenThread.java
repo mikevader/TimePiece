@@ -1,4 +1,4 @@
-package timepiece;
+package timepiece.watchface;
 
 public class GenThread extends Thread {
 

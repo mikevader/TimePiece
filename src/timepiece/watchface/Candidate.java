@@ -1,4 +1,4 @@
-package timepiece;
+package timepiece.watchface;
 
 public class Candidate {
 	public int fittnes = Integer.MIN_VALUE;

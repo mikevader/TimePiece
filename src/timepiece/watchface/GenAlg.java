@@ -1,4 +1,6 @@
-package timepiece;
+package timepiece.watchface;
+
+import timepiece.TimeNamesEnglish;
 
 import java.io.File;
 import java.io.FileWriter;

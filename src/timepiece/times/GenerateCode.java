@@ -1,4 +1,6 @@
-package timepiece;
+package timepiece.times;
+
+import timepiece.TimeNamesGerman;
 
 import java.util.LinkedList;
 import java.util.List;
