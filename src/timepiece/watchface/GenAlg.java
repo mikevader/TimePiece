@@ -254,7 +254,7 @@ public class GenAlg {
         Collections.sort(this.solution.candidates, new Comparator<Candidate>() {
             @Override
             public int compare(Candidate o1, Candidate o2) {
-                Integer i = new Integer(o1.checkedTimesNOK);
+                Integer i = o1.checkedTimesNOK;
                 return i.compareTo(o2.checkedTimesNOK);
             }
         });
