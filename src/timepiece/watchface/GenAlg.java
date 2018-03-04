@@ -14,28 +14,28 @@ import java.util.regex.Pattern;
 
 public class GenAlg {
 
-    public static final int POPULATION_SIZE = 1000;
-    public static final int NONE_FOUND_PENALTY = -10000;
-    public static final int NOT_MATCHED_PENALTY = -10;
-    public static final int MATCH_BONUS = 1000;
-    public static final int WORD_MATCH_BONUS = 10;
+    private static final int POPULATION_SIZE = 1000;
+    private static final int NONE_FOUND_PENALTY = -10000;
+    private static final int NOT_MATCHED_PENALTY = -10;
+    private static final int MATCH_BONUS = 1000;
+    private static final int WORD_MATCH_BONUS = 10;
     public static final int COST_OF_THIS_ALGORITHM_BECOMING_SKYNET = 999999999;
-    public static final int LOW_SPLIT_BONUS = 100;
-    public static final int VARIANCE_PENALTY = 1;
+    private static final int LOW_SPLIT_BONUS = 100;
+    private static final int VARIANCE_PENALTY = 1;
 
-    char[] includedChar = null;
-    Solution solution = null;
+    private char[] includedChar = null;
+    private Solution solution = null;
     Random rand = new Random();
-    List<Pattern>[][] patterns = null;
-    List<Pattern> wordPatterns = null;
-    HashSet<String> inclWords = new HashSet<>();
+    private List<Pattern>[][] patterns = null;
+    private List<Pattern> wordPatterns = null;
+    private HashSet<String> inclWords = new HashSet<>();
 
     public static void main(String[] args) {
         GenAlg gen = new GenAlg();
         gen.run();
     }
 
-    public void run() {
+    private void run() {
 
         System.out.println("creating patterns");
         createPatterns(TimeNamesEnglish.getTimeStrings());
@@ -108,7 +108,7 @@ public class GenAlg {
     }
 
     @SuppressWarnings("unchecked")
-    public void createPatterns(List<String>[][] strings) {
+    private void createPatterns(List<String>[][] strings) {
         HashSet<Character> inclChar = new HashSet<>();
 
         patterns = new List[strings.length][];
@@ -185,7 +185,7 @@ public class GenAlg {
         return cand;
     }
 
-    public void loadSolution() {
+    private void loadSolution() {
         try {
             JAXBContext jc = JAXBContext.newInstance(Solution.class);
             Unmarshaller um = jc.createUnmarshaller();
@@ -227,7 +227,7 @@ public class GenAlg {
         this.solution.worst = this.solution.candidates.get(this.solution.candidates.size() - 1);
     }
 
-    public void saveSolution() {
+    private void saveSolution() {
         try {
             JAXBContext jc = JAXBContext.newInstance(Solution.class);
             Marshaller ma = jc.createMarshaller();
@@ -246,11 +246,11 @@ public class GenAlg {
         }
     }
 
-    public void removeRandom() {
+    private void removeRandom() {
         this.solution.candidates.remove(getRandom(false));
     }
 
-    public void sortSolution() {
+    private void sortSolution() {
         this.solution.candidates.sort((o1, o2) -> {
             Integer i = o1.checkedTimesNOK;
             return i.compareTo(o2.checkedTimesNOK);
@@ -309,7 +309,7 @@ public class GenAlg {
         return res;
     }
 
-    public char getRandomChar() {
+    private char getRandomChar() {
         int pos = rand.nextInt(includedChar.length);
         return includedChar[pos];
     }

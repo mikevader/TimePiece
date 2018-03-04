@@ -2,9 +2,9 @@ package timepiece.watchface;
 
 public class GenThread extends Thread {
 
-    GenAlg genAlg = null;
+    private GenAlg genAlg = null;
 
-    public GenThread(GenAlg genAlg) {
+    GenThread(GenAlg genAlg) {
         this.genAlg = genAlg;
     }
 

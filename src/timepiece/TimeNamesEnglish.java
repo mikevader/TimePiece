@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TimeNamesEnglish {
 
-    public static String[] getHours() {
+    private static String[] getHours() {
         String[] hours = {
                 "one",
                 "two",
@@ -23,7 +23,7 @@ public class TimeNamesEnglish {
         return hours;
     }
 
-    public static String[] getMinutes() {
+    private static String[] getMinutes() {
         String[] minutes = {
                 "zero",
                 "five",
