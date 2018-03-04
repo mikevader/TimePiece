@@ -325,10 +325,10 @@ public class GenAlg {
         int checkedTimesNOK = 0;
 
         HashSet<Integer> splitPos = new HashSet<Integer>();
-        for (int hour = 0; hour < patterns.length; hour++) {
-            for (int minute = 0; minute < patterns[hour].length; minute++) {
+        for (List<Pattern>[] pattern : patterns) {
+            for (List<Pattern> aPattern : pattern) {
                 boolean oneFound = false;
-                for (Pattern timeRegEx : patterns[hour][minute]) {
+                for (Pattern timeRegEx : aPattern) {
                     Matcher m = timeRegEx.matcher(candidate.candidate);
                     if (m.matches()) {
                         oneFound = true;

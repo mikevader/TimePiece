@@ -21,7 +21,7 @@ public class GenerateCode {
                     String[] words = time.split(" ");
 
                     StringBuilder regex = new StringBuilder();
-                    for (int j = 0; j < words.length; j++) {
+                    for (String word : words) {
                         if (regex.length() == 0) {
                             regex.append("(.*?)");
                         } else {
@@ -29,7 +29,7 @@ public class GenerateCode {
                         }
 
                         StringBuilder subRegex = new StringBuilder();
-                        String[] subWords = words[j].split("\\+");
+                        String[] subWords = word.split("\\+");
                         for (String string : subWords) {
                             if (subRegex.length() > 0) {
                                 subRegex.append("(.*)");
