@@ -80,7 +80,7 @@ public class GenerateHTML {
                                 "<span class='time'>%2d:%02d</span>", hour + 1,
                                 minute * 5));
 
-                        htmlOut.write(String.format("<div class='times'>"));
+                        htmlOut.write("<div class='times'>");
                         for (int i = 1; i <= matcher.groupCount(); i++) {
                             splitPos.add(matcher.start(i));
                             if (i % 2 == 1) {
@@ -98,9 +98,9 @@ public class GenerateHTML {
                                                 .replaceAll("\\|", "<br />")));
                             }
                         }
-                        htmlOut.write(String.format("</div>"));
+                        htmlOut.write("</div>");
 
-                        htmlOut.write(String.format("</div>\n"));
+                        htmlOut.write("</div>\n");
                     }
                 }
             }
