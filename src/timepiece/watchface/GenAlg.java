@@ -53,7 +53,7 @@ public class GenAlg {
         for (GenThread genThread : threads) {
             try {
                 genThread.join();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
         }
 
@@ -79,7 +79,7 @@ public class GenAlg {
                     out.write("," + solution.fittest.checkedTimesNOK);
                     out.write("\n");
                     out.close();
-                } catch (IOException e) {
+                } catch (IOException ignored) {
                 }
             }
         }
@@ -232,7 +232,7 @@ public class GenAlg {
             JAXBContext jc = JAXBContext.newInstance(Solution.class);
             Marshaller ma = jc.createMarshaller();
             ma.marshal(this.solution, new File("solution.xml"));
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
