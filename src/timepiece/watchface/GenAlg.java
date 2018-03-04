@@ -97,7 +97,7 @@ public class GenAlg {
 
     public Candidate getRandom(boolean good) {
         synchronized (solution) {
-            int r = -1;
+            int r;
             do {
                 r = (int) (Math.abs(rand.nextGaussian() * 0.5) * solution.candidates.size());
                 if (!good) r = solution.candidates.size() - r + 1;
@@ -269,7 +269,7 @@ public class GenAlg {
 
         char[] cand = source.candidate.toCharArray();
 
-        int pos = -1;
+        int pos;
         do {
             pos = rand.nextInt(cand.length);
         } while (cand[pos] == '|');
@@ -287,8 +287,8 @@ public class GenAlg {
         char[] word = words[rand.nextInt(words.length)].toString().toCharArray();
         char[] cand = source.candidate.toCharArray();
 
-        int pos = -1;
-        boolean possible = false;
+        int pos;
+        boolean possible;
         do {
             possible = true;
             pos = rand.nextInt(cand.length);
