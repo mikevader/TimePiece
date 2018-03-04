@@ -301,9 +301,7 @@ public class GenAlg {
             }
         } while (!possible);
 
-        for (int i = 0; i < word.length && possible; i++) {
-            cand[i + pos] = word[i];
-        }
+        System.arraycopy(word, 0, cand, pos, word.length);
 
         res.candidate = new String(cand);
         return res;
