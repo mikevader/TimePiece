@@ -28,7 +28,7 @@ public class GenerateHTML {
                 for (String time : strings[hour][minute]) {
                     String[] words = time.split(" ");
 
-                    StringBuffer regex = new StringBuffer();
+                    StringBuilder regex = new StringBuilder();
                     for (int j = 0; j < words.length; j++) {
 
                         if (regex.length() == 0) {
@@ -37,7 +37,7 @@ public class GenerateHTML {
                             regex.append("(.+)");
                         }
 
-                        StringBuffer subRegex = new StringBuffer();
+                        StringBuilder subRegex = new StringBuilder();
                         String[] subWords = words[j].split("\\+");
                         for (String string : subWords) {
                             if (subRegex.length() > 0) {

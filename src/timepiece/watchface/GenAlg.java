@@ -119,7 +119,7 @@ public class GenAlg {
                 patterns[hour][minute] = new LinkedList<Pattern>();
                 for (String time : strings[hour][minute]) {
 
-                    StringBuffer regex = new StringBuffer();
+                    StringBuilder regex = new StringBuilder();
                     String[] words = time.split(" ");
                     for (String word : words) {
 
@@ -129,7 +129,7 @@ public class GenAlg {
                             regex.append("(.+)");
                         }
 
-                        StringBuffer subRegex = new StringBuffer();
+                        StringBuilder subRegex = new StringBuilder();
                         String[] subWords = word.split("\\+");
                         for (String string : subWords) {
                             if (subRegex.length() > 0) {
@@ -157,7 +157,7 @@ public class GenAlg {
             }
         }
 
-        StringBuffer charSet = new StringBuffer();
+        StringBuilder charSet = new StringBuilder();
         for (Character character : inclChar) {
             if (character != ' ') charSet.append(character);
         }

@@ -20,7 +20,7 @@ public class GenerateCode {
                 for (String time : strings[hour][minute]) {
                     String[] words = time.split(" ");
 
-                    StringBuffer regex = new StringBuffer();
+                    StringBuilder regex = new StringBuilder();
                     for (int j = 0; j < words.length; j++) {
                         if (regex.length() == 0) {
                             regex.append("(.*?)");
@@ -28,7 +28,7 @@ public class GenerateCode {
                             regex.append("(.+?)");
                         }
 
-                        StringBuffer subRegex = new StringBuffer();
+                        StringBuilder subRegex = new StringBuilder();
                         String[] subWords = words[j].split("\\+");
                         for (String string : subWords) {
                             if (subRegex.length() > 0) {
@@ -68,7 +68,7 @@ public class GenerateCode {
                             for (int j = matcher.start(i); j < matcher.end(i); j++) bitsToSet[j] = (i % 2 == 0);
                         }
 
-                        StringBuffer bits = new StringBuffer();
+                        StringBuilder bits = new StringBuilder();
                         for (int i = 0; i < bitsToSet.length; i++) {
                             if (solution.charAt(i) != '|') {
                                 bits.append(bitsToSet[i] ? "1" : "0");
@@ -79,7 +79,7 @@ public class GenerateCode {
                         String[] lines = bits.toString().split("-");
 
 
-                        StringBuffer timeBytes = new StringBuffer();
+                        StringBuilder timeBytes = new StringBuilder();
                         timeBytes.append("");
                         timeBytes.append(String.format("%3d", (hour + 1) * 12 + minute));
                         timeBytes.append(String.format(" /* %2d:%02d */", hour + 1,
