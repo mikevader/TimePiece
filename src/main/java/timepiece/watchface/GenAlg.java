@@ -1,5 +1,7 @@
 package timepiece.watchface;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import timepiece.TimeNamesEnglish;
 
 import javax.xml.bind.JAXBContext;
@@ -14,6 +16,8 @@ import java.util.regex.Pattern;
 
 public class GenAlg {
 
+    Logger log = LogManager.getLogger(GenAlg.class);
+
     private static final int POPULATION_SIZE = 1000;
     private static final int NONE_FOUND_PENALTY = -10000;
     private static final int NOT_MATCHED_PENALTY = -10;
@@ -23,12 +27,12 @@ public class GenAlg {
     private static final int LOW_SPLIT_BONUS = 100;
     private static final int VARIANCE_PENALTY = 1;
 
-    private char[] includedChar = null;
-    private Solution solution = null;
+    char[] includedChar = null;
+    Solution solution = null;
     Random rand = new Random();
-    private List<Pattern>[][] patterns = null;
-    private List<Pattern> wordPatterns = null;
-    private HashSet<String> inclWords = new HashSet<>();
+    List<Pattern>[][] patterns = null;
+    List<Pattern> wordPatterns = null;
+    HashSet<String> inclWords = new HashSet<>();
 
     public static void main(String[] args) {
         GenAlg gen = new GenAlg();
@@ -37,10 +41,10 @@ public class GenAlg {
 
     private void run() {
 
-        System.out.println("creating patterns");
+        log.info("creating patterns");
         createPatterns(TimeNamesEnglish.getTimeStrings());
 
-        System.out.println("loading solution");
+        log.info("loading solution");
         loadSolution();
 
         List<GenThread> threads = new LinkedList<>();
@@ -64,12 +68,12 @@ public class GenAlg {
             solution.generation++;
 
             if (solution.generation % 1000 == 0) {
-                System.out.printf("best:  %4d: %s\n", solution.generation, solution.fittest.toString());
+                log.info(String.format("best:  %4d: %s\n", solution.generation, solution.fittest.toString()));
 //				System.out.printf("worst: %4d: %s\n",solution.generation,solution.worst.toString());
             }
 
             if (solution.generation % 10000 == 0) {
-                System.out.println("saving solution");
+                log.info("saving solution");
                 saveSolution();
 
                 try {
@@ -108,7 +112,7 @@ public class GenAlg {
     }
 
     @SuppressWarnings("unchecked")
-    private void createPatterns(List<String>[][] strings) {
+    void createPatterns(List<String>[][] strings) {
         HashSet<Character> inclChar = new HashSet<>();
 
         patterns = new List[strings.length][];
@@ -152,7 +156,7 @@ public class GenAlg {
                     regex.append("(.*)");
                     patterns[hour][minute].add(Pattern.compile(regex.toString()));
                     //System.out.printf("%02d:%02d : %s\n", hour + 1, minute * 5, regex.toString());
-                    System.out.printf("\t/%s/,\n", regex.toString());
+                    //System.out.printf("\t/%s/,\n", regex.toString());
                 }
             }
         }
@@ -162,7 +166,7 @@ public class GenAlg {
             if (character != ' ') charSet.append(character);
         }
         includedChar = charSet.toString().toCharArray();
-        System.out.println(charSet.toString());
+        //System.out.println(charSet.toString());
 
         wordPatterns = new LinkedList<>();
         for (String string : inclWords) {
@@ -185,7 +189,7 @@ public class GenAlg {
         return cand;
     }
 
-    private void loadSolution() {
+    void loadSolution() {
         try {
             JAXBContext jc = JAXBContext.newInstance(Solution.class);
             Unmarshaller um = jc.createUnmarshaller();
@@ -197,7 +201,7 @@ public class GenAlg {
                 calcFittness(cand);
             }
         } catch (Exception e) {
-            System.out.println("solution not found");
+            log.error("solution not found", e);
             this.solution = new Solution();
 
             for (int i = 0; i < POPULATION_SIZE; i++) {
@@ -307,7 +311,7 @@ public class GenAlg {
         return res;
     }
 
-    private char getRandomChar() {
+    char getRandomChar() {
         int pos = rand.nextInt(includedChar.length);
         return includedChar[pos];
     }
