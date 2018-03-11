@@ -2,7 +2,7 @@ package timepiece.watchface;
 
 public class GenThread extends Thread {
 
-    private GenAlg genAlg = null;
+    private GenAlg genAlg;
 
     GenThread(GenAlg genAlg) {
         this.genAlg = genAlg;
@@ -13,8 +13,8 @@ public class GenThread extends Thread {
         while (true) {
             genAlg.incGeneration();
 
-            Candidate newCandidate = null;
-            int action = genAlg.rand.nextInt(16);
+            Candidate newCandidate;
+            int action = genAlg.getRand().nextInt(16);
 
             if (action < 2) {
                 newCandidate = genAlg.mixTogether(genAlg.getRandom(true), genAlg.getRandom(true));
@@ -34,5 +34,4 @@ public class GenThread extends Thread {
 
         }
     }
-
 }

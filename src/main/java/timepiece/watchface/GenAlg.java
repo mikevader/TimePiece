@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class GenAlg {
 
-    Logger log = LogManager.getLogger(GenAlg.class);
+    private Logger log = LogManager.getLogger(GenAlg.class);
 
     private static final int POPULATION_SIZE = 1000;
     private static final int NONE_FOUND_PENALTY = -10000;
@@ -27,12 +27,12 @@ public class GenAlg {
     private static final int LOW_SPLIT_BONUS = 100;
     private static final int VARIANCE_PENALTY = 1;
 
-    char[] includedChar = null;
-    Solution solution = null;
-    Random rand = new Random();
-    List<Pattern>[][] patterns = null;
-    List<Pattern> wordPatterns = null;
-    HashSet<String> inclWords = new HashSet<>();
+    private char[] includedChar = null;
+    private Solution solution = null;
+    private Random rand = new Random();
+    private List<Pattern>[][] patterns = null;
+    private List<Pattern> wordPatterns = null;
+    private HashSet<String> inclWords = new HashSet<>();
 
     public static void main(String[] args) {
         GenAlg gen = new GenAlg();
@@ -64,23 +64,23 @@ public class GenAlg {
     }
 
     public void incGeneration() {
-        synchronized (solution) {
-            solution.generation++;
+        synchronized (getSolution()) {
+            getSolution().setGeneration(getSolution().getGeneration() + 1);
 
-            if (solution.generation % 1000 == 0) {
-                log.info(String.format("best:  %4d: %s\n", solution.generation, solution.fittest.toString()));
+            if (getSolution().getGeneration() % 1000 == 0) {
+                log.info(String.format("best:  %4d: %s\n", getSolution().getGeneration(), getSolution().getFittest().toString()));
 //				System.out.printf("worst: %4d: %s\n",solution.generation,solution.worst.toString());
             }
 
-            if (solution.generation % 10000 == 0) {
+            if (getSolution().getGeneration() % 10000 == 0) {
                 log.info("saving solution");
                 saveSolution();
 
                 try {
                     FileWriter out = new FileWriter("fittnes.txt", true);
-                    out.write("" + solution.generation);
-                    out.write("," + solution.fittest.fittnes);
-                    out.write("," + solution.fittest.checkedTimesNOK);
+                    out.write("" + getSolution().getGeneration());
+                    out.write("," + getSolution().getFittest().getFittnes());
+                    out.write("," + getSolution().getFittest().getCheckedTimesNOK());
                     out.write("\n");
                     out.close();
                 } catch (IOException ignored) {
@@ -90,24 +90,24 @@ public class GenAlg {
     }
 
     public boolean doAdd(Candidate candidate) {
-        int max = solution.fittest.fittnes;
-        int min = solution.worst.fittnes;
+        int max = getSolution().getFittest().getFittnes();
+        int min = getSolution().getWorst().getFittnes();
         if (max == min) return true;
-        if (candidate.fittnes < min) return rand.nextInt(100) < 10;
+        if (candidate.getFittnes() < min) return getRand().nextInt(100) < 10;
 
-        double prob = (candidate.fittnes - min) / (max - min) + 0.1;
-        return rand.nextDouble() < prob;
+        double prob = (candidate.getFittnes() - min) / (max - min) + 0.1;
+        return getRand().nextDouble() < prob;
     }
 
     public Candidate getRandom(boolean good) {
-        synchronized (solution) {
+        synchronized (getSolution()) {
             int r;
             do {
-                r = (int) (Math.abs(rand.nextGaussian() * 0.5) * solution.candidates.size());
-                if (!good) r = solution.candidates.size() - r + 1;
-            } while (r < 0 || r >= solution.candidates.size());
+                r = (int) (Math.abs(getRand().nextGaussian() * 0.5) * getSolution().getCandidates().size());
+                if (!good) r = getSolution().getCandidates().size() - r + 1;
+            } while (r < 0 || r >= getSolution().getCandidates().size());
             if (!good && r == 0) r++;
-            return solution.candidates.get(r);
+            return getSolution().getCandidates().get(r);
         }
     }
 
@@ -115,12 +115,12 @@ public class GenAlg {
     void createPatterns(List<String>[][] strings) {
         HashSet<Character> inclChar = new HashSet<>();
 
-        patterns = new List[strings.length][];
+        setPatterns(new List[strings.length][]);
 
         for (int hour = 0; hour < strings.length; hour++) {
-            patterns[hour] = new List[strings[hour].length];
+            getPatterns()[hour] = new List[strings[hour].length];
             for (int minute = 0; minute < strings[hour].length; minute++) {
-                patterns[hour][minute] = new LinkedList<>();
+                getPatterns()[hour][minute] = new LinkedList<>();
                 for (String time : strings[hour][minute]) {
 
                     StringBuilder regex = new StringBuilder();
@@ -142,7 +142,7 @@ public class GenAlg {
                             subRegex.append("(");
                             subRegex.append(string);
                             subRegex.append(")");
-                            inclWords.add(string);
+                            getInclWords().add(string);
 
                             char[] chars = string.toCharArray();
                             for (char c : chars) {
@@ -154,7 +154,7 @@ public class GenAlg {
 
                     }
                     regex.append("(.*)");
-                    patterns[hour][minute].add(Pattern.compile(regex.toString()));
+                    getPatterns()[hour][minute].add(Pattern.compile(regex.toString()));
                     //System.out.printf("%02d:%02d : %s\n", hour + 1, minute * 5, regex.toString());
                     //System.out.printf("\t/%s/,\n", regex.toString());
                 }
@@ -165,24 +165,24 @@ public class GenAlg {
         for (Character character : inclChar) {
             if (character != ' ') charSet.append(character);
         }
-        includedChar = charSet.toString().toCharArray();
+        setIncludedChar(charSet.toString().toCharArray());
         //System.out.println(charSet.toString());
 
-        wordPatterns = new LinkedList<>();
-        for (String string : inclWords) {
-            wordPatterns.add(Pattern.compile(".*" + string + ".*"));
+        setWordPatterns(new LinkedList<>());
+        for (String string : getInclWords()) {
+            getWordPatterns().add(Pattern.compile(".*" + string + ".*"));
         }
     }
 
     public Candidate createRandom() {
         Candidate cand = new Candidate();
-        char[] c = cand.candidate.toCharArray();
+        char[] c = cand.getCandidate().toCharArray();
         for (int i = 0; i < c.length; i++) {
             if (c[i] != '|') {
                 c[i] = getRandomChar();
             }
         }
-        cand.candidate = new String(c);
+        cand.setCandidate(new String(c));
         for (int j = 0; j < 100; j++) {
             cand = addRandomWord(cand);
         }
@@ -193,16 +193,16 @@ public class GenAlg {
         try {
             JAXBContext jc = JAXBContext.newInstance(Solution.class);
             Unmarshaller um = jc.createUnmarshaller();
-            this.solution = (Solution) um.unmarshal(new File("solution.xml"));
-            for (int i = solution.candidates.size(); i < POPULATION_SIZE; i++) {
-                this.solution.candidates.add(createRandom());
+            this.setSolution((Solution) um.unmarshal(new File("solution.xml")));
+            for (int i = getSolution().getCandidates().size(); i < POPULATION_SIZE; i++) {
+                this.getSolution().getCandidates().add(createRandom());
             }
-            for (Candidate cand : solution.candidates) {
+            for (Candidate cand : getSolution().getCandidates()) {
                 calcFittness(cand);
             }
         } catch (Exception e) {
             log.error("solution not found", e);
-            this.solution = new Solution();
+            this.setSolution(new Solution());
 
             for (int i = 0; i < POPULATION_SIZE; i++) {
 
@@ -219,83 +219,83 @@ public class GenAlg {
                     //c.candidate = "XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX";
 
                     //circle
-                    c.candidate = "ONER|SETHIRTY|FIFTYPTYHALF|FTENETWENTYR|FIVENTPASTNINE|TIELEVENTHREEH|XSIXTFIFTEENTWOEN|TWELVEEIGHTSEVENR|YWEQUARTERFOURTYE|FOFIVENTCLOCKTENY|NINEEPASTENTOU|FIFTEENFOURTHY|TWOHFIFTYEWR|THIRTYTWENTY|FIVENONE|YTEN";
+                    c.setCandidate("ONER|SETHIRTY|FIFTYPTYHALF|FTENETWENTYR|FIVENTPASTNINE|TIELEVENTHREEH|XSIXTFIFTEENTWOEN|TWELVEEIGHTSEVENR|YWEQUARTERFOURTYE|FOFIVENTCLOCKTENY|NINEEPASTENTOU|FIFTEENFOURTHY|TWOHFIFTYEWR|THIRTYTWENTY|FIVENONE|YTEN");
                 }
                 calcFittness(c);
-                this.solution.candidates.add(c);
+                this.getSolution().getCandidates().add(c);
             }
             System.out.println();
         }
         sortSolution();
-        this.solution.fittest = this.solution.candidates.get(0);
-        this.solution.worst = this.solution.candidates.get(this.solution.candidates.size() - 1);
+        this.getSolution().setFittest(this.getSolution().getCandidates().get(0));
+        this.getSolution().setWorst(this.getSolution().getCandidates().get(this.getSolution().getCandidates().size() - 1));
     }
 
     private void saveSolution() {
         try {
             JAXBContext jc = JAXBContext.newInstance(Solution.class);
             Marshaller ma = jc.createMarshaller();
-            ma.marshal(this.solution, new File("solution.xml"));
+            ma.marshal(this.getSolution(), new File("solution.xml"));
         } catch (Exception ignored) {
         }
     }
 
     public void addToSolution(Candidate candidate) {
-        synchronized (solution) {
-            if (this.solution.candidates.size() == POPULATION_SIZE) this.removeRandom();
-            this.solution.candidates.add(candidate);
-            if (candidate.fittnes >= this.solution.fittest.fittnes) this.solution.fittest = candidate;
-            if (candidate.fittnes <= this.solution.worst.fittnes) this.solution.worst = candidate;
+        synchronized (getSolution()) {
+            if (this.getSolution().getCandidates().size() == POPULATION_SIZE) this.removeRandom();
+            this.getSolution().getCandidates().add(candidate);
+            if (candidate.getFittnes() >= this.getSolution().getFittest().getFittnes()) this.getSolution().setFittest(candidate);
+            if (candidate.getFittnes() <= this.getSolution().getWorst().getFittnes()) this.getSolution().setWorst(candidate);
             this.sortSolution();
         }
     }
 
     private void removeRandom() {
-        this.solution.candidates.remove(getRandom(false));
+        this.getSolution().getCandidates().remove(getRandom(false));
     }
 
     private void sortSolution() {
-        this.solution.candidates.sort((o1, o2) -> {
-            Integer i = o1.checkedTimesNOK;
-            return i.compareTo(o2.checkedTimesNOK);
+        this.getSolution().getCandidates().sort((o1, o2) -> {
+            Integer i = o1.getCheckedTimesNOK();
+            return i.compareTo(o2.getCheckedTimesNOK());
         });
     }
 
     public Candidate mixTogether(Candidate left, Candidate right) {
         Candidate res = new Candidate();
-        int pos = rand.nextInt(left.candidate.length());
-        res.candidate = left.candidate.substring(0, pos) + right.candidate.substring(pos);
+        int pos = getRand().nextInt(left.getCandidate().length());
+        res.setCandidate(left.getCandidate().substring(0, pos) + right.getCandidate().substring(pos));
         return res;
     }
 
     public Candidate changeRandom(Candidate source) {
         Candidate res = new Candidate();
 
-        char[] cand = source.candidate.toCharArray();
+        char[] cand = source.getCandidate().toCharArray();
 
         int pos;
         do {
-            pos = rand.nextInt(cand.length);
+            pos = getRand().nextInt(cand.length);
         } while (cand[pos] == '|');
 
         cand[pos] = getRandomChar();
 
-        res.candidate = new String(cand);
+        res.setCandidate(new String(cand));
         return res;
     }
 
     public Candidate addRandomWord(Candidate source) {
         Candidate res = new Candidate();
 
-        Object[] words = inclWords.toArray();
-        char[] word = words[rand.nextInt(words.length)].toString().toCharArray();
-        char[] cand = source.candidate.toCharArray();
+        Object[] words = getInclWords().toArray();
+        char[] word = words[getRand().nextInt(words.length)].toString().toCharArray();
+        char[] cand = source.getCandidate().toCharArray();
 
         int pos;
         boolean possible;
         do {
             possible = true;
-            pos = rand.nextInt(cand.length);
+            pos = getRand().nextInt(cand.length);
             for (int i = pos; i < pos + word.length && possible; i++) {
                 if (i >= cand.length) {
                     possible = false;
@@ -307,13 +307,13 @@ public class GenAlg {
 
         System.arraycopy(word, 0, cand, pos, word.length);
 
-        res.candidate = new String(cand);
+        res.setCandidate(new String(cand));
         return res;
     }
 
     char getRandomChar() {
-        int pos = rand.nextInt(includedChar.length);
-        return includedChar[pos];
+        int pos = getRand().nextInt(getIncludedChar().length);
+        return getIncludedChar()[pos];
     }
 
     public void calcFittness(Candidate candidate) {
@@ -324,11 +324,11 @@ public class GenAlg {
         int checkedTimesNOK = 0;
 
         HashSet<Integer> splitPos = new HashSet<>();
-        for (List<Pattern>[] pattern : patterns) {
+        for (List<Pattern>[] pattern : getPatterns()) {
             for (List<Pattern> aPattern : pattern) {
                 boolean oneFound = false;
                 for (Pattern timeRegEx : aPattern) {
-                    Matcher m = timeRegEx.matcher(candidate.candidate);
+                    Matcher m = timeRegEx.matcher(candidate.getCandidate());
                     if (m.matches()) {
                         oneFound = true;
                         fittness += MATCH_BONUS;
@@ -350,8 +350,8 @@ public class GenAlg {
             }
         }
 
-        for (Pattern word : wordPatterns) {
-            Matcher m = word.matcher(candidate.candidate);
+        for (Pattern word : getWordPatterns()) {
+            Matcher m = word.matcher(candidate.getCandidate());
             if (m.matches()) {
                 fittness += WORD_MATCH_BONUS;
             }
@@ -377,18 +377,66 @@ public class GenAlg {
         }
         variance = Math.sqrt(variance);
 
-        candidate.fittnes = fittness;
-        candidate.splitPos = splitPos.size();
-        candidate.variance = variance;
-        candidate.avgLen = avgLen;
-        candidate.checkedOK = checkedOK;
-        candidate.checkedNOK = checkedNOK;
-        candidate.checkedTimesOK = checkedTimesOK;
-        candidate.checkedTimesNOK = checkedTimesNOK;
+        candidate.setFittnes(fittness);
+        candidate.setSplitPos(splitPos.size());
+        candidate.setVariance(variance);
+        candidate.setAvgLen(avgLen);
+        candidate.setCheckedOK(checkedOK);
+        candidate.setCheckedNOK(checkedNOK);
+        candidate.setCheckedTimesOK(checkedTimesOK);
+        candidate.setCheckedTimesNOK(checkedTimesNOK);
 
         if (checkedNOK == 0) {
-            candidate.fittnes += (100 - candidate.splitPos) * LOW_SPLIT_BONUS;
-            candidate.fittnes -= variance * VARIANCE_PENALTY;
+            candidate.setFittnes(candidate.getFittnes() + (100 - candidate.getSplitPos()) * LOW_SPLIT_BONUS);
+            candidate.setFittnes((int)(candidate.getFittnes() - variance * VARIANCE_PENALTY));
         }
+    }
+
+    public char[] getIncludedChar() {
+        return includedChar;
+    }
+
+    public void setIncludedChar(char[] includedChar) {
+        this.includedChar = includedChar;
+    }
+
+    public Solution getSolution() {
+        return solution;
+    }
+
+    public void setSolution(Solution solution) {
+        this.solution = solution;
+    }
+
+    public Random getRand() {
+        return rand;
+    }
+
+    public void setRand(Random rand) {
+        this.rand = rand;
+    }
+
+    public List<Pattern>[][] getPatterns() {
+        return patterns;
+    }
+
+    public void setPatterns(List<Pattern>[][] patterns) {
+        this.patterns = patterns;
+    }
+
+    public List<Pattern> getWordPatterns() {
+        return wordPatterns;
+    }
+
+    public void setWordPatterns(List<Pattern> wordPatterns) {
+        this.wordPatterns = wordPatterns;
+    }
+
+    public HashSet<String> getInclWords() {
+        return inclWords;
+    }
+
+    public void setInclWords(HashSet<String> inclWords) {
+        this.inclWords = inclWords;
     }
 }

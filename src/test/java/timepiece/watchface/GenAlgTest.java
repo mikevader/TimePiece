@@ -21,7 +21,7 @@ class GenAlgTest {
     void setUp() {
         random = mock(Random.class);
         genAlg = new GenAlg();
-        genAlg.rand = random;
+        genAlg.setRand(random);
     }
 
     @Test
@@ -29,11 +29,11 @@ class GenAlgTest {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
 
         Solution solution = new Solution();
-        genAlg.solution = solution;
+        genAlg.setSolution(solution);
 
         genAlg.incGeneration();
 
-        assertEquals(1, genAlg.solution.generation);
+        assertEquals(1, genAlg.getSolution().getGeneration());
     }
 
     @Test
@@ -41,18 +41,18 @@ class GenAlgTest {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
 
         Solution solution = new Solution();
-        solution.fittest = new Candidate();
-        solution.worst = new Candidate();
-        solution.fittest.fittnes = 100;
-        solution.worst.fittnes = 100;
+        solution.setFittest(new Candidate());
+        solution.setWorst(new Candidate());
+        solution.getFittest().setFittnes(100);
+        solution.getWorst().setFittnes(100);
 
         Candidate candidate = new Candidate();
-        candidate.fittnes = 0;
+        candidate.setFittnes(0);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
 
-        genAlg.solution = solution;
+        genAlg.setSolution(solution);
 
         boolean doAdd = genAlg.doAdd(candidate);
 
@@ -64,18 +64,18 @@ class GenAlgTest {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
 
         Solution solution = new Solution();
-        solution.fittest = new Candidate();
-        solution.worst = new Candidate();
-        solution.fittest.fittnes = 100;
-        solution.worst.fittnes = 80;
+        solution.setFittest(new Candidate());
+        solution.setWorst(new Candidate());
+        solution.getFittest().setFittnes(100);
+        solution.getWorst().setFittnes(80);
 
         Candidate candidate = new Candidate();
-        candidate.fittnes = 10;
+        candidate.setFittnes(10);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
 
-        genAlg.solution = solution;
+        genAlg.setSolution(solution);
 
         boolean doAdd = genAlg.doAdd(candidate);
 
@@ -87,19 +87,19 @@ class GenAlgTest {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
 
         Solution solution = new Solution();
-        solution.fittest = new Candidate();
-        solution.worst = new Candidate();
-        solution.fittest.fittnes = 100;
-        solution.worst.fittnes = -100;
+        solution.setFittest(new Candidate());
+        solution.setWorst(new Candidate());
+        solution.getFittest().setFittnes(100);
+        solution.getWorst().setFittnes(-100);
 
         Candidate candidate = new Candidate();
-        candidate.fittnes = 0;
+        candidate.setFittnes(0);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
 
 
-        genAlg.solution = solution;
+        genAlg.setSolution(solution);
 
         boolean doAdd = genAlg.doAdd(candidate);
 
@@ -111,18 +111,18 @@ class GenAlgTest {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
 
         Solution solution = new Solution();
-        solution.fittest = new Candidate();
-        solution.worst = new Candidate();
-        solution.fittest.fittnes = 100;
-        solution.worst.fittnes = 0;
+        solution.setFittest(new Candidate());
+        solution.setWorst(new Candidate());
+        solution.getFittest().setFittnes(100);
+        solution.getWorst().setFittnes(0);
 
         Candidate candidate = new Candidate();
-        candidate.fittnes = 10;
+        candidate.setFittnes(10);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(1.0);
 
-        genAlg.solution = solution;
+        genAlg.setSolution(solution);
 
         boolean doAdd = genAlg.doAdd(candidate);
 
@@ -134,20 +134,20 @@ class GenAlgTest {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
 
         Solution solution = new Solution();
-        solution.fittest = new Candidate();
-        solution.worst = new Candidate();
-        solution.candidates.add(solution.fittest);
-        solution.candidates.add(solution.worst);
-        solution.fittest.fittnes = 100;
-        solution.worst.fittnes = 80;
-        genAlg.solution = solution;
+        solution.setFittest(new Candidate());
+        solution.setWorst(new Candidate());
+        solution.getCandidates().add(solution.getFittest());
+        solution.getCandidates().add(solution.getWorst());
+        solution.getFittest().setFittnes(100);
+        solution.getWorst().setFittnes(80);
+        genAlg.setSolution(solution);
 
 
         when(random.nextGaussian()).thenReturn(-0.4);
         Candidate random = genAlg.getRandom(true);
 
         assertNotNull(random);
-        assertSame(solution.fittest, random);
+        assertSame(solution.getFittest(), random);
     }
 
     @Test
@@ -155,20 +155,20 @@ class GenAlgTest {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
 
         Solution solution = new Solution();
-        solution.fittest = new Candidate();
-        solution.worst = new Candidate();
-        solution.candidates.add(solution.fittest);
-        solution.candidates.add(solution.worst);
-        solution.fittest.fittnes = 100;
-        solution.worst.fittnes = 80;
-        genAlg.solution = solution;
+        solution.setFittest(new Candidate());
+        solution.setWorst(new Candidate());
+        solution.getCandidates().add(solution.getFittest());
+        solution.getCandidates().add(solution.getWorst());
+        solution.getFittest().setFittnes(100);
+        solution.getWorst().setFittnes(80);
+        genAlg.setSolution(solution);
 
 
         when(random.nextGaussian()).thenReturn(-1.0);
         Candidate random = genAlg.getRandom(true);
 
         assertNotNull(random);
-        assertSame(solution.worst, random);
+        assertSame(solution.getWorst(), random);
     }
 
     @Test
@@ -177,7 +177,7 @@ class GenAlgTest {
                 'a', 'e', 'f', 'g', 'h', 'i', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'y'
         };
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
-        when(random.nextInt(genAlg.includedChar.length)).thenReturn(1);
+        when(random.nextInt(genAlg.getIncludedChar().length)).thenReturn(1);
         char randomChar = genAlg.getRandomChar();
 
         assertEquals('e', randomChar);
@@ -187,12 +187,12 @@ class GenAlgTest {
     void createRandom() {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
 
-        when(random.nextInt(genAlg.includedChar.length)).thenReturn(1); // for getRandomChar()
-        when(random.nextInt(genAlg.inclWords.size())).thenReturn(2); // for addRandomWord()
+        when(random.nextInt(genAlg.getIncludedChar().length)).thenReturn(1); // for getRandomChar()
+        when(random.nextInt(genAlg.getInclWords().size())).thenReturn(2); // for addRandomWord()
         Candidate candidate = genAlg.createRandom();
 
         String expCandiate = "halfeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee";
-        assertEquals(expCandiate, candidate.candidate);
+        assertEquals(expCandiate, candidate.getCandidate());
     }
 
     @Test
@@ -200,24 +200,24 @@ class GenAlgTest {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
 
         Solution solution = new Solution();
-        solution.fittest = new Candidate();
-        solution.worst = new Candidate();
-        solution.candidates.add(solution.fittest);
-        solution.candidates.add(solution.worst);
-        solution.fittest.fittnes = 100;
-        solution.worst.fittnes = 80;
+        solution.setFittest(new Candidate());
+        solution.setWorst(new Candidate());
+        solution.getCandidates().add(solution.getFittest());
+        solution.getCandidates().add(solution.getWorst());
+        solution.getFittest().setFittnes(100);
+        solution.getWorst().setFittnes(80);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
 
-        genAlg.solution = solution;
+        genAlg.setSolution(solution);
 
         Candidate candidate = new Candidate();
-        candidate.fittnes = 20;
+        candidate.setFittnes(20);
 
         genAlg.addToSolution(candidate);
 
-        assertEquals(3, genAlg.solution.candidates.size());
+        assertEquals(3, genAlg.getSolution().getCandidates().size());
     }
 
     @Test
@@ -225,14 +225,14 @@ class GenAlgTest {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
 
         Candidate left = new Candidate();
-        left.candidate = "aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX";
+        left.setCandidate("aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX");
         Candidate right = new Candidate();
-        right.candidate = "XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb";
-        when(random.nextInt(left.candidate.length())).thenReturn(20);
+        right.setCandidate("XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb");
+        when(random.nextInt(left.getCandidate().length())).thenReturn(20);
         Candidate mix = genAlg.mixTogether(left, right);
 
         String expCandiate = "aaaaXXXXXXX|aaaaXXXXbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb";
-        assertEquals(expCandiate, mix.candidate);
+        assertEquals(expCandiate, mix.getCandidate());
     }
 
     @Test
@@ -240,22 +240,22 @@ class GenAlgTest {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
 
         Candidate source = new Candidate();
-        when(random.nextInt(source.candidate.length())).thenReturn(10); // for changeRandom()
-        when(random.nextInt(genAlg.includedChar.length)).thenReturn(1); // for getRandomChar()
+        when(random.nextInt(source.getCandidate().length())).thenReturn(10); // for changeRandom()
+        when(random.nextInt(genAlg.getIncludedChar().length)).thenReturn(1); // for getRandomChar()
         Candidate candidate = genAlg.changeRandom(source);
 
         String expCandidate = "XXXXXXXXXXe|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX";
-        assertEquals(expCandidate, candidate.candidate);
+        assertEquals(expCandidate, candidate.getCandidate());
     }
 
     @Test
     void addRandomWord() {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
-        when(random.nextInt(genAlg.inclWords.size())).thenReturn(1);
+        when(random.nextInt(genAlg.getInclWords().size())).thenReturn(1);
         Candidate newCandidate = genAlg.addRandomWord(new Candidate());
 
         String expCandidate = "nineXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX";
-        assertEquals(expCandidate, newCandidate.candidate);
+        assertEquals(expCandidate, newCandidate.getCandidate());
     }
 
     @Test
@@ -264,7 +264,7 @@ class GenAlgTest {
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
         genAlg.calcFittness(candidate);
 
-        assertEquals(-1443120, candidate.fittnes);
+        assertEquals(-1443120, candidate.getFittnes());
     }
 
     @Test
@@ -273,7 +273,7 @@ class GenAlgTest {
 
 
         HashSet<String> expInclWords = new HashSet(Arrays.asList("fifteen", "nine", "half", "six", "past", "fifty", "one", "seven", "two", "three", "o", "eight", "times", "four", "twelve", "eleven", "to", "ten", "five", "quarter", "twenty", "thirty", "forty"));
-        assertIterableEquals(expInclWords, genAlg.inclWords);
+        assertIterableEquals(expInclWords, genAlg.getInclWords());
 
         List[][] expPatterns = {
                 {
@@ -448,16 +448,16 @@ class GenAlgTest {
         };
 
         List<String>[][] expPatternsString = convertToStringPatterns(expPatterns);
-        List<String>[][] actPatternsString = convertToStringPatterns(genAlg.patterns);
+        List<String>[][] actPatternsString = convertToStringPatterns(genAlg.getPatterns());
 
         assertArrayEquals(expPatternsString, actPatternsString);
         //assertEquals(expPatterns, genAlg.patterns);
 
         char[] expIncludedChar = {'a', 'e', 'f', 'g', 'h', 'i', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y'};
-        assertArrayEquals(expIncludedChar, genAlg.includedChar);
+        assertArrayEquals(expIncludedChar, genAlg.getIncludedChar());
 
         List<String> expWordPatterns = Arrays.asList(".*fifteen.*", ".*nine.*", ".*half.*", ".*six.*", ".*past.*", ".*fifty.*", ".*one.*", ".*seven.*", ".*two.*", ".*three.*", ".*o.*", ".*eight.*", ".*times.*", ".*four.*", ".*twelve.*", ".*eleven.*", ".*to.*", ".*ten.*", ".*five.*", ".*quarter.*", ".*twenty.*", ".*thirty.*", ".*forty.*");
-        assertEquals(expWordPatterns, convertToStringPatterns(genAlg.wordPatterns));
+        assertEquals(expWordPatterns, convertToStringPatterns(genAlg.getWordPatterns()));
     }
 
     private List<String>[][] convertToStringPatterns(List<Pattern>[][] expPatterns) {

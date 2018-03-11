@@ -48,21 +48,21 @@ public class GenAlgIntegrationTest {
         do {
             run(gen);
 
-            if (gen.solution.fittest.checkedTimesNOK == 0 && gen.solution.fittest == currentBest) {
+            if (gen.getSolution().getFittest().getCheckedTimesNOK() == 0 && gen.getSolution().getFittest() == currentBest) {
                 stableFor++;
             } else {
                 stableFor = 0;
             }
 
-            currentBest = gen.solution.fittest;
+            currentBest = gen.getSolution().getFittest();
         } while (stableFor < 10);
     }
 
     private void run(GenAlg genAlg) {
         genAlg.incGeneration();
 
-        Candidate newCandidate = null;
-        int action = genAlg.rand.nextInt(16);
+        Candidate newCandidate;
+        int action = genAlg.getRand().nextInt(16);
 
         if (action < 2) {
             newCandidate = genAlg.mixTogether(genAlg.getRandom(true), genAlg.getRandom(true));
