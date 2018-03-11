@@ -26,7 +26,7 @@ public class GenThread extends Thread {
                 newCandidate = genAlg.createRandom();
             }
 
-            genAlg.calcFittness(newCandidate);
+            genAlg.calcFitness(newCandidate);
 
             if (genAlg.doAdd(newCandidate)) {
                 genAlg.addToSolution(newCandidate);

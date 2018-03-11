@@ -74,7 +74,7 @@ public class GenAlgIntegrationTest {
             newCandidate = genAlg.createRandom();
         }
 
-        genAlg.calcFittness(newCandidate);
+        genAlg.calcFitness(newCandidate);
 
         if (genAlg.doAdd(newCandidate)) {
             genAlg.addToSolution(newCandidate);

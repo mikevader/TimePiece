@@ -43,11 +43,11 @@ class GenAlgTest {
         Solution solution = new Solution();
         solution.setFittest(new Candidate());
         solution.setWorst(new Candidate());
-        solution.getFittest().setFittnes(100);
-        solution.getWorst().setFittnes(100);
+        solution.getFittest().setFitness(100);
+        solution.getWorst().setFitness(100);
 
         Candidate candidate = new Candidate();
-        candidate.setFittnes(0);
+        candidate.setFitness(0);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
@@ -66,11 +66,11 @@ class GenAlgTest {
         Solution solution = new Solution();
         solution.setFittest(new Candidate());
         solution.setWorst(new Candidate());
-        solution.getFittest().setFittnes(100);
-        solution.getWorst().setFittnes(80);
+        solution.getFittest().setFitness(100);
+        solution.getWorst().setFitness(80);
 
         Candidate candidate = new Candidate();
-        candidate.setFittnes(10);
+        candidate.setFitness(10);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
@@ -89,11 +89,11 @@ class GenAlgTest {
         Solution solution = new Solution();
         solution.setFittest(new Candidate());
         solution.setWorst(new Candidate());
-        solution.getFittest().setFittnes(100);
-        solution.getWorst().setFittnes(-100);
+        solution.getFittest().setFitness(100);
+        solution.getWorst().setFitness(-100);
 
         Candidate candidate = new Candidate();
-        candidate.setFittnes(0);
+        candidate.setFitness(0);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
@@ -113,11 +113,11 @@ class GenAlgTest {
         Solution solution = new Solution();
         solution.setFittest(new Candidate());
         solution.setWorst(new Candidate());
-        solution.getFittest().setFittnes(100);
-        solution.getWorst().setFittnes(0);
+        solution.getFittest().setFitness(100);
+        solution.getWorst().setFitness(0);
 
         Candidate candidate = new Candidate();
-        candidate.setFittnes(10);
+        candidate.setFitness(10);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(1.0);
@@ -138,8 +138,8 @@ class GenAlgTest {
         solution.setWorst(new Candidate());
         solution.getCandidates().add(solution.getFittest());
         solution.getCandidates().add(solution.getWorst());
-        solution.getFittest().setFittnes(100);
-        solution.getWorst().setFittnes(80);
+        solution.getFittest().setFitness(100);
+        solution.getWorst().setFitness(80);
         genAlg.setSolution(solution);
 
 
@@ -159,8 +159,8 @@ class GenAlgTest {
         solution.setWorst(new Candidate());
         solution.getCandidates().add(solution.getFittest());
         solution.getCandidates().add(solution.getWorst());
-        solution.getFittest().setFittnes(100);
-        solution.getWorst().setFittnes(80);
+        solution.getFittest().setFitness(100);
+        solution.getWorst().setFitness(80);
         genAlg.setSolution(solution);
 
 
@@ -204,8 +204,8 @@ class GenAlgTest {
         solution.setWorst(new Candidate());
         solution.getCandidates().add(solution.getFittest());
         solution.getCandidates().add(solution.getWorst());
-        solution.getFittest().setFittnes(100);
-        solution.getWorst().setFittnes(80);
+        solution.getFittest().setFitness(100);
+        solution.getWorst().setFitness(80);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
@@ -213,7 +213,7 @@ class GenAlgTest {
         genAlg.setSolution(solution);
 
         Candidate candidate = new Candidate();
-        candidate.setFittnes(20);
+        candidate.setFitness(20);
 
         genAlg.addToSolution(candidate);
 
@@ -259,12 +259,12 @@ class GenAlgTest {
     }
 
     @Test
-    void calcFittness() {
+    void calcFitness() {
         Candidate candidate = new Candidate();
         genAlg.createPatterns(TimeNamesEnglish.getTimeStrings());
-        genAlg.calcFittness(candidate);
+        genAlg.calcFitness(candidate);
 
-        assertEquals(-1443120, candidate.getFittnes());
+        assertEquals(-1443120, candidate.getFitness());
     }
 
     @Test

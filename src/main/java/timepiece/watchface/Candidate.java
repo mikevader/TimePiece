@@ -1,7 +1,7 @@
 package timepiece.watchface;
 
 public class Candidate {
-    private int fittnes = Integer.MIN_VALUE;
+    private int fitness = Integer.MIN_VALUE;
 
 
 //	public String candidate = //10x10
@@ -101,17 +101,17 @@ public class Candidate {
 
     @Override
     public String toString() {
-        return String.format("%10d: splits: %d, check ok: %d, nok: %d, times ok: %d, nok %d, %s", getFittnes(), getSplitPos(),
+        return String.format("%10d: splits: %d, check ok: %d, nok: %d, times ok: %d, nok %d, %s", getFitness(), getSplitPos(),
                 getCheckedOK(), getCheckedNOK(), getCheckedTimesOK(), getCheckedTimesNOK(),
                 getCandidate());
     }
 
-    public int getFittnes() {
-        return fittnes;
+    public int getFitness() {
+        return fitness;
     }
 
-    public void setFittnes(int fittnes) {
-        this.fittnes = fittnes;
+    public void setFitness(int fitness) {
+        this.fitness = fitness;
     }
 
     public String getCandidate() {

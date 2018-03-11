@@ -79,7 +79,7 @@ public class GenAlg {
                 try {
                     FileWriter out = new FileWriter("fittnes.txt", true);
                     out.write("" + getSolution().getGeneration());
-                    out.write("," + getSolution().getFittest().getFittnes());
+                    out.write("," + getSolution().getFittest().getFitness());
                     out.write("," + getSolution().getFittest().getCheckedTimesNOK());
                     out.write("\n");
                     out.close();
@@ -90,12 +90,12 @@ public class GenAlg {
     }
 
     public boolean doAdd(Candidate candidate) {
-        int max = getSolution().getFittest().getFittnes();
-        int min = getSolution().getWorst().getFittnes();
+        int max = getSolution().getFittest().getFitness();
+        int min = getSolution().getWorst().getFitness();
         if (max == min) return true;
-        if (candidate.getFittnes() < min) return getRand().nextInt(100) < 10;
+        if (candidate.getFitness() < min) return getRand().nextInt(100) < 10;
 
-        double prob = (candidate.getFittnes() - min) / (max - min) + 0.1;
+        double prob = (candidate.getFitness() - min) / (max - min) + 0.1;
         return getRand().nextDouble() < prob;
     }
 
@@ -198,7 +198,7 @@ public class GenAlg {
                 this.getSolution().getCandidates().add(createRandom());
             }
             for (Candidate cand : getSolution().getCandidates()) {
-                calcFittness(cand);
+                calcFitness(cand);
             }
         } catch (Exception e) {
             log.error("solution not found", e);
@@ -221,7 +221,7 @@ public class GenAlg {
                     //circle
                     c.setCandidate("ONER|SETHIRTY|FIFTYPTYHALF|FTENETWENTYR|FIVENTPASTNINE|TIELEVENTHREEH|XSIXTFIFTEENTWOEN|TWELVEEIGHTSEVENR|YWEQUARTERFOURTYE|FOFIVENTCLOCKTENY|NINEEPASTENTOU|FIFTEENFOURTHY|TWOHFIFTYEWR|THIRTYTWENTY|FIVENONE|YTEN");
                 }
-                calcFittness(c);
+                calcFitness(c);
                 this.getSolution().getCandidates().add(c);
             }
             System.out.println();
@@ -244,8 +244,8 @@ public class GenAlg {
         synchronized (getSolution()) {
             if (this.getSolution().getCandidates().size() == POPULATION_SIZE) this.removeRandom();
             this.getSolution().getCandidates().add(candidate);
-            if (candidate.getFittnes() >= this.getSolution().getFittest().getFittnes()) this.getSolution().setFittest(candidate);
-            if (candidate.getFittnes() <= this.getSolution().getWorst().getFittnes()) this.getSolution().setWorst(candidate);
+            if (candidate.getFitness() >= this.getSolution().getFittest().getFitness()) this.getSolution().setFittest(candidate);
+            if (candidate.getFitness() <= this.getSolution().getWorst().getFitness()) this.getSolution().setWorst(candidate);
             this.sortSolution();
         }
     }
@@ -316,8 +316,8 @@ public class GenAlg {
         return getIncludedChar()[pos];
     }
 
-    public void calcFittness(Candidate candidate) {
-        int fittness = 0;
+    public void calcFitness(Candidate candidate) {
+        int fitness = 0;
         int checkedOK = 0;
         int checkedNOK = 0;
         int checkedTimesOK = 0;
@@ -331,18 +331,18 @@ public class GenAlg {
                     Matcher m = timeRegEx.matcher(candidate.getCandidate());
                     if (m.matches()) {
                         oneFound = true;
-                        fittness += MATCH_BONUS;
+                        fitness += MATCH_BONUS;
                         checkedOK++;
                         for (int i = 1; i <= m.groupCount(); i++) {
                             splitPos.add(m.start(i));
                         }
                     } else {
-                        fittness += NOT_MATCHED_PENALTY;
+                        fitness += NOT_MATCHED_PENALTY;
                         checkedNOK++;
                     }
                 }
                 if (!oneFound) {
-                    fittness += NONE_FOUND_PENALTY;
+                    fitness += NONE_FOUND_PENALTY;
                     checkedTimesNOK++;
                 } else {
                     checkedTimesOK++;
@@ -353,7 +353,7 @@ public class GenAlg {
         for (Pattern word : getWordPatterns()) {
             Matcher m = word.matcher(candidate.getCandidate());
             if (m.matches()) {
-                fittness += WORD_MATCH_BONUS;
+                fitness += WORD_MATCH_BONUS;
             }
         }
 
@@ -377,7 +377,7 @@ public class GenAlg {
         }
         variance = Math.sqrt(variance);
 
-        candidate.setFittnes(fittness);
+        candidate.setFitness(fitness);
         candidate.setSplitPos(splitPos.size());
         candidate.setVariance(variance);
         candidate.setAvgLen(avgLen);
@@ -387,8 +387,8 @@ public class GenAlg {
         candidate.setCheckedTimesNOK(checkedTimesNOK);
 
         if (checkedNOK == 0) {
-            candidate.setFittnes(candidate.getFittnes() + (100 - candidate.getSplitPos()) * LOW_SPLIT_BONUS);
-            candidate.setFittnes((int)(candidate.getFittnes() - variance * VARIANCE_PENALTY));
+            candidate.setFitness(candidate.getFitness() + (100 - candidate.getSplitPos()) * LOW_SPLIT_BONUS);
+            candidate.setFitness((int)(candidate.getFitness() - variance * VARIANCE_PENALTY));
         }
     }
 
