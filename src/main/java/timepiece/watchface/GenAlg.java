@@ -10,8 +10,10 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
-import java.util.regex.Matcher;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 public class GenAlg {
@@ -19,13 +21,6 @@ public class GenAlg {
     private Logger log = LogManager.getLogger(GenAlg.class);
 
     private static final int POPULATION_SIZE = 1000;
-    private static final int NONE_FOUND_PENALTY = -10000;
-    private static final int NOT_MATCHED_PENALTY = -10;
-    private static final int MATCH_BONUS = 1000;
-    private static final int WORD_MATCH_BONUS = 10;
-    public static final int COST_OF_THIS_ALGORITHM_BECOMING_SKYNET = 999999999;
-    private static final int LOW_SPLIT_BONUS = 100;
-    private static final int VARIANCE_PENALTY = 1;
 
     private final FitnessCalculator fitnessCalculator = new FitnessCalculator();
     private char[] includedChar = null;
