@@ -75,20 +75,23 @@ public class FitnessCalculator {
         }
         variance = Math.sqrt(variance);
 
-        candidate.setFitness(fitness);
-        candidate.setSplitPos(splitPos.size());
-        candidate.setVariance(variance);
-        candidate.setAvgLen(avgLen);
-        candidate.setCheckedOK(checkedOK);
-        candidate.setCheckedNOK(checkedNOK);
-        candidate.setCheckedTimesOK(checkedTimesOK);
-        candidate.setCheckedTimesNOK(checkedTimesNOK);
-
         if (checkedNOK == 0) {
-            candidate.setFitness(candidate.getFitness() + (100 - candidate.getSplitPos()) * LOW_SPLIT_BONUS);
-            candidate.setFitness((int)(candidate.getFitness() - variance * VARIANCE_PENALTY));
+            fitness = fitness + (100 - splitPos.size()) * LOW_SPLIT_BONUS;
+            fitness = (int)(fitness - variance * VARIANCE_PENALTY);
         }
 
-        return null;
+        Fitness fitnessResult = Fitness.createFitness(
+                fitness,
+                checkedOK,
+                checkedNOK,
+                checkedTimesOK,
+                checkedTimesNOK,
+                splitPos.size(),
+                variance,
+                avgLen);
+
+        candidate.setFitnessResult(fitnessResult);
+
+        return fitnessResult;
     }
 }

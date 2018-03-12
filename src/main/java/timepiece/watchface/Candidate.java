@@ -1,7 +1,7 @@
 package timepiece.watchface;
 
 public class Candidate {
-    private final Fitness fitness = new Fitness();
+    private Fitness fitness = new Fitness();
 
 
 //	public String candidate = //10x10
@@ -96,6 +96,14 @@ public class Candidate {
         return String.format("%10d: splits: %d, check ok: %d, nok: %d, times ok: %d, nok %d, %s", fitness.getFitness(), fitness.getSplitPos(),
                 fitness.getCheckedOK(), fitness.getCheckedNOK(), fitness.getCheckedTimesOK(), fitness.getCheckedTimesNOK(),
                 getCandidate());
+    }
+
+    public Fitness getFitnessResult() {
+        return fitness;
+    }
+
+    public void setFitnessResult(Fitness fitness) {
+        this.fitness = fitness;
     }
 
     public int getFitness() {

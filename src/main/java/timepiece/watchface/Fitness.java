@@ -1,14 +1,25 @@
 package timepiece.watchface;
 
 public class Fitness {
-    int fitness;
-    int checkedOK = 0;
-    int checkedNOK = 0;
-    int checkedTimesOK = 0;
-    int checkedTimesNOK = 0;
-    int splitPos = 0;
-    double variance = 0;
-    double avgLen = 0;
+    private int fitness;
+    private int checkedOK = 0;
+    private int checkedNOK = 0;
+    private int checkedTimesOK = 0;
+    private int checkedTimesNOK = 0;
+    private int splitPos = 0;
+    private double variance = 0;
+    private double avgLen = 0;
+
+    private Fitness(int fitness, int checkedOK, int checkedNOK, int checkedTimesOK, int checkedTimesNOK, int splitPos, double variance, double avgLen) {
+        this.fitness = fitness;
+        this.checkedOK = checkedOK;
+        this.checkedNOK = checkedNOK;
+        this.checkedTimesOK = checkedTimesOK;
+        this.checkedTimesNOK = checkedTimesNOK;
+        this.splitPos = splitPos;
+        this.variance = variance;
+        this.avgLen = avgLen;
+    }
 
     public Fitness() {
         this.fitness = Integer.MIN_VALUE;
@@ -76,5 +87,9 @@ public class Fitness {
 
     public void setAvgLen(double avgLen) {
         this.avgLen = avgLen;
+    }
+
+    public static Fitness createFitness(int fitness, int checkedOK, int checkedNOK, int checkedTimesOK, int checkedTimesNOK, int splitPos, double variance, double avgLen) {
+        return new Fitness(fitness, checkedOK, checkedNOK, checkedTimesOK, checkedTimesNOK, splitPos, variance, avgLen);
     }
 }
