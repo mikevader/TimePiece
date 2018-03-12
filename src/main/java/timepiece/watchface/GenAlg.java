@@ -27,6 +27,7 @@ public class GenAlg {
     private static final int LOW_SPLIT_BONUS = 100;
     private static final int VARIANCE_PENALTY = 1;
 
+    private final FitnessCalculator fitnessCalculator = new FitnessCalculator();
     private char[] includedChar = null;
     private Solution solution = null;
     private Random rand = new Random();
@@ -317,79 +318,8 @@ public class GenAlg {
     }
 
     public void calcFitness(Candidate candidate) {
-        int fitness = 0;
-        int checkedOK = 0;
-        int checkedNOK = 0;
-        int checkedTimesOK = 0;
-        int checkedTimesNOK = 0;
+        Fitness fitness = fitnessCalculator.calculate(candidate, patterns, wordPatterns);
 
-        HashSet<Integer> splitPos = new HashSet<>();
-        for (List<Pattern>[] pattern : getPatterns()) {
-            for (List<Pattern> aPattern : pattern) {
-                boolean oneFound = false;
-                for (Pattern timeRegEx : aPattern) {
-                    Matcher m = timeRegEx.matcher(candidate.getCandidate());
-                    if (m.matches()) {
-                        oneFound = true;
-                        fitness += MATCH_BONUS;
-                        checkedOK++;
-                        for (int i = 1; i <= m.groupCount(); i++) {
-                            splitPos.add(m.start(i));
-                        }
-                    } else {
-                        fitness += NOT_MATCHED_PENALTY;
-                        checkedNOK++;
-                    }
-                }
-                if (!oneFound) {
-                    fitness += NONE_FOUND_PENALTY;
-                    checkedTimesNOK++;
-                } else {
-                    checkedTimesOK++;
-                }
-            }
-        }
-
-        for (Pattern word : getWordPatterns()) {
-            Matcher m = word.matcher(candidate.getCandidate());
-            if (m.matches()) {
-                fitness += WORD_MATCH_BONUS;
-            }
-        }
-
-        Integer lastPos = null;
-        double avgLen = 0;
-        for (Integer pos : splitPos) {
-            if (lastPos != null) {
-                avgLen += pos - lastPos;
-            }
-            lastPos = pos;
-        }
-        avgLen /= (splitPos.size() - 1);
-
-        double variance = 0;
-        lastPos = null;
-        for (Integer pos : splitPos) {
-            if (lastPos != null) {
-                variance += Math.pow(avgLen - (pos - lastPos), 2);
-            }
-            lastPos = pos;
-        }
-        variance = Math.sqrt(variance);
-
-        candidate.setFitness(fitness);
-        candidate.setSplitPos(splitPos.size());
-        candidate.setVariance(variance);
-        candidate.setAvgLen(avgLen);
-        candidate.setCheckedOK(checkedOK);
-        candidate.setCheckedNOK(checkedNOK);
-        candidate.setCheckedTimesOK(checkedTimesOK);
-        candidate.setCheckedTimesNOK(checkedTimesNOK);
-
-        if (checkedNOK == 0) {
-            candidate.setFitness(candidate.getFitness() + (100 - candidate.getSplitPos()) * LOW_SPLIT_BONUS);
-            candidate.setFitness((int)(candidate.getFitness() - variance * VARIANCE_PENALTY));
-        }
     }
 
     public char[] getIncludedChar() {

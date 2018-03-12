@@ -1,7 +1,7 @@
 package timepiece.watchface;
 
 public class Candidate {
-    private int fitness = Integer.MIN_VALUE;
+    private final Fitness fitness = new Fitness();
 
 
 //	public String candidate = //10x10
@@ -91,27 +91,19 @@ public class Candidate {
 //			"TO|" +
 //			"O";
 
-    private int checkedOK = 0;
-    private int checkedNOK = 0;
-    private int checkedTimesOK = 0;
-    private int checkedTimesNOK = 0;
-    private int splitPos = 0;
-    private double variance = 0;
-    private double avgLen = 0;
-
     @Override
     public String toString() {
-        return String.format("%10d: splits: %d, check ok: %d, nok: %d, times ok: %d, nok %d, %s", getFitness(), getSplitPos(),
-                getCheckedOK(), getCheckedNOK(), getCheckedTimesOK(), getCheckedTimesNOK(),
+        return String.format("%10d: splits: %d, check ok: %d, nok: %d, times ok: %d, nok %d, %s", fitness.getFitness(), fitness.getSplitPos(),
+                fitness.getCheckedOK(), fitness.getCheckedNOK(), fitness.getCheckedTimesOK(), fitness.getCheckedTimesNOK(),
                 getCandidate());
     }
 
     public int getFitness() {
-        return fitness;
+        return fitness.getFitness();
     }
 
     public void setFitness(int fitness) {
-        this.fitness = fitness;
+        this.fitness.setFitness(fitness);
     }
 
     public String getCandidate() {
@@ -123,58 +115,58 @@ public class Candidate {
     }
 
     public int getCheckedOK() {
-        return checkedOK;
+        return fitness.getCheckedOK();
     }
 
     public void setCheckedOK(int checkedOK) {
-        this.checkedOK = checkedOK;
+        fitness.setCheckedOK(checkedOK);
     }
 
     public int getCheckedNOK() {
-        return checkedNOK;
+        return fitness.getCheckedNOK();
     }
 
     public void setCheckedNOK(int checkedNOK) {
-        this.checkedNOK = checkedNOK;
+        fitness.setCheckedNOK(checkedNOK);
     }
 
     public int getCheckedTimesOK() {
-        return checkedTimesOK;
+        return fitness.getCheckedTimesOK();
     }
 
     public void setCheckedTimesOK(int checkedTimesOK) {
-        this.checkedTimesOK = checkedTimesOK;
+        fitness.setCheckedTimesOK(checkedTimesOK);
     }
 
     public int getCheckedTimesNOK() {
-        return checkedTimesNOK;
+        return fitness.getCheckedTimesNOK();
     }
 
     public void setCheckedTimesNOK(int checkedTimesNOK) {
-        this.checkedTimesNOK = checkedTimesNOK;
+        fitness.setCheckedTimesNOK(checkedTimesNOK);
     }
 
     public int getSplitPos() {
-        return splitPos;
+        return fitness.getSplitPos();
     }
 
     public void setSplitPos(int splitPos) {
-        this.splitPos = splitPos;
+        fitness.setSplitPos(splitPos);
     }
 
     public double getVariance() {
-        return variance;
+        return fitness.getVariance();
     }
 
     public void setVariance(double variance) {
-        this.variance = variance;
+        fitness.setVariance(variance);
     }
 
     public double getAvgLen() {
-        return avgLen;
+        return fitness.getAvgLen();
     }
 
     public void setAvgLen(double avgLen) {
-        this.avgLen = avgLen;
+        fitness.setAvgLen(avgLen);
     }
 }
