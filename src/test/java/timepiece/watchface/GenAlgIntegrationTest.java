@@ -48,7 +48,7 @@ public class GenAlgIntegrationTest {
         do {
             run(gen);
 
-            if (gen.getSolution().getFittest().getCheckedTimesNOK() == 0 && gen.getSolution().getFittest() == currentBest) {
+            if (gen.getSolution().getFittest().getFitnessResult().getCheckedTimesNOK() == 0 && gen.getSolution().getFittest() == currentBest) {
                 stableFor++;
             } else {
                 stableFor = 0;

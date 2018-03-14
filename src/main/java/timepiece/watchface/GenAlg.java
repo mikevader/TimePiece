@@ -76,7 +76,7 @@ public class GenAlg {
                     FileWriter out = new FileWriter("fittnes.txt", true);
                     out.write("" + getSolution().getGeneration());
                     out.write("," + getSolution().getFittest().getFitness());
-                    out.write("," + getSolution().getFittest().getCheckedTimesNOK());
+                    out.write("," + getSolution().getFittest().getFitnessResult().getCheckedTimesNOK());
                     out.write("\n");
                     out.close();
                 } catch (IOException ignored) {
@@ -252,8 +252,8 @@ public class GenAlg {
 
     private void sortSolution() {
         this.getSolution().getCandidates().sort((o1, o2) -> {
-            Integer i = o1.getCheckedTimesNOK();
-            return i.compareTo(o2.getCheckedTimesNOK());
+            Integer i = o1.getFitnessResult().getCheckedTimesNOK();
+            return i.compareTo(o2.getFitnessResult().getCheckedTimesNOK());
         });
     }
 
