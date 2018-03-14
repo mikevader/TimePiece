@@ -39,19 +39,9 @@ class FitnessCalculatorTest {
 
     @Test
     void calculateDefault() {
-        Candidate candidate = new Candidate();
-        candidate.setCandidate(
-                "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX");
+        Candidate candidate = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .build();
 
         Fitness result = fitnessCalculator.calculate(candidate, patterns, wordPatterns);
 
@@ -68,19 +58,11 @@ class FitnessCalculatorTest {
 
     @Test
     void calculateOneTimeOk() {
-        Candidate candidate = new Candidate();
-        candidate.setCandidate(
-                "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXeinXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXuhrXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX");
+        Candidate candidate = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withWordAt(3, 4, "ein")
+                .withWordAt(6, 4, "uhr")
+                .build();
 
         Fitness result = fitnessCalculator.calculate(candidate, patterns, wordPatterns);
 
@@ -97,19 +79,12 @@ class FitnessCalculatorTest {
 
     @Test
     void calculateOneTimeWithAlternativesOk() {
-        Candidate candidate = new Candidate();
-        candidate.setCandidate(
-                "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXpunktXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXeinsXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXuhrXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX|" +
-                        "XXXXXXXXXXX");
+        Candidate candidate = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withWordAt(2, 3, "punkt")
+                .withWordAt(4, 4, "eins")
+                .withWordAt(6, 4, "uhr")
+                .build();
 
         Fitness result = fitnessCalculator.calculate(candidate, patterns, wordPatterns);
 
@@ -122,5 +97,24 @@ class FitnessCalculatorTest {
         assertEquals(8, result.getSplitPos());
         assertEquals(11.285714285714286, result.getAvgLen());
         assertEquals(61.59081564185176, result.getVariance());
+    }
+
+    @Test
+    void calculateMatch() {
+        Candidate candidate = new CandidateTestBuilder()
+                .withSchemaGermanSolution()
+                .build();
+
+        Fitness result = fitnessCalculator.calculate(candidate, patterns, wordPatterns);
+
+        assertNotNull(result);
+        assertEquals(201100, result.getFitness());
+        assertEquals(144, result.getCheckedTimesOK());
+        assertEquals(0, result.getCheckedTimesNOK());
+        assertEquals(202, result.getCheckedOK());
+        assertEquals(110, result.getCheckedNOK());
+        assertEquals(43, result.getSplitPos());
+        assertEquals(1.4047619047619047, result.getAvgLen());
+        assertEquals(299.8101383336111, result.getVariance());
     }
 }
