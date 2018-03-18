@@ -14,7 +14,7 @@ public class FitnessCalculator {
     private static final int LOW_SPLIT_BONUS = 100;
     private static final int VARIANCE_PENALTY = 1;
 
-    public Fitness calculate(Candidate candidate, List<Pattern>[][] patterns, List<Pattern> wordPatterns) {
+    public Fitness calculate(Candidate candidate, WatchfacePattern watchfacePattern) {
         int fitness = 0;
         int checkedOK = 0;
         int checkedNOK = 0;
@@ -22,7 +22,7 @@ public class FitnessCalculator {
         int checkedTimesNOK = 0;
 
         HashSet<Integer> splitPos = new HashSet<>();
-        for (List<Pattern>[] pattern : patterns) {
+        for (List<Pattern>[] pattern : watchfacePattern.getPatterns()) {
             for (List<Pattern> aPattern : pattern) {
                 boolean oneFound = false;
                 for (Pattern timeRegEx : aPattern) {
@@ -48,7 +48,7 @@ public class FitnessCalculator {
             }
         }
 
-        for (Pattern word : wordPatterns) {
+        for (Pattern word : watchfacePattern.getWordPatterns()) {
             Matcher m = word.matcher(candidate.getCandidate());
             if (m.matches()) {
                 fitness += WORD_MATCH_BONUS;

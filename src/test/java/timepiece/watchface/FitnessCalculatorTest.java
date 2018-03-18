@@ -6,26 +6,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import timepiece.TimeNamesGerman;
 
-import java.util.List;
-import java.util.regex.Pattern;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class FitnessCalculatorTest {
 
-    private static List<Pattern>[][] patterns;
-    private static List<Pattern> wordPatterns;
+    private static WatchfacePattern watchfacePattern;
 
     private FitnessCalculator fitnessCalculator;
 
     @BeforeAll
     static void beforeAll() {
-        GenAlg genAlg = new GenAlg();
-        genAlg.createPatterns(TimeNamesGerman.getTimeStrings());
-
-        patterns = genAlg.getPatterns();
-        wordPatterns = genAlg.getWordPatterns();
+        PatternGenerator patternGenerator = new PatternGenerator();
+        watchfacePattern = patternGenerator.createPatterns(TimeNamesGerman.getTimeStrings());
     }
 
     @BeforeEach
@@ -43,7 +36,7 @@ class FitnessCalculatorTest {
                 .withSchemaEmpty()
                 .build();
 
-        Fitness result = fitnessCalculator.calculate(candidate, patterns, wordPatterns);
+        Fitness result = fitnessCalculator.calculate(candidate, watchfacePattern);
 
         assertNotNull(result);
         assertEquals(-1443120, result.getFitness());
@@ -64,7 +57,7 @@ class FitnessCalculatorTest {
                 .withWordAt(6, 4, "uhr")
                 .build();
 
-        Fitness result = fitnessCalculator.calculate(candidate, patterns, wordPatterns);
+        Fitness result = fitnessCalculator.calculate(candidate, watchfacePattern);
 
         assertNotNull(result);
         assertEquals(-1432090, result.getFitness());
@@ -86,7 +79,7 @@ class FitnessCalculatorTest {
                 .withWordAt(6, 4, "uhr")
                 .build();
 
-        Fitness result = fitnessCalculator.calculate(candidate, patterns, wordPatterns);
+        Fitness result = fitnessCalculator.calculate(candidate, watchfacePattern);
 
         assertNotNull(result);
         assertEquals(-1431060, result.getFitness());
@@ -105,7 +98,7 @@ class FitnessCalculatorTest {
                 .withSchemaGermanSolution()
                 .build();
 
-        Fitness result = fitnessCalculator.calculate(candidate, patterns, wordPatterns);
+        Fitness result = fitnessCalculator.calculate(candidate, watchfacePattern);
 
         assertNotNull(result);
         assertEquals(201100, result.getFitness());

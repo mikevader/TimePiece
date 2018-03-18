@@ -1,5 +1,6 @@
 package timepiece.watchface;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import timepiece.TimeNamesEnglish;
 
@@ -9,11 +10,13 @@ import java.util.List;
 public class GenAlgIntegrationTest {
 
     @Test
+    @Disabled
     void fullTest() {
+        PatternGenerator patternGenerator = new PatternGenerator();
         GenAlg gen = new GenAlg();
 
         System.out.println("creating patterns");
-        gen.createPatterns(TimeNamesEnglish.getTimeStrings());
+        gen.setWatchfacePattern(patternGenerator.createPatterns(TimeNamesEnglish.getTimeStrings()));
 
         System.out.println("loading solution");
         gen.loadSolution();
@@ -35,10 +38,12 @@ public class GenAlgIntegrationTest {
 
 
     @Test
+    @Disabled
     void runUntilStableBest() {
         GenAlg gen = new GenAlg();
         System.out.println("creating patterns");
-        gen.createPatterns(TimeNamesEnglish.getTimeStrings());
+        PatternGenerator patternGenerator = new PatternGenerator();
+        gen.setWatchfacePattern(patternGenerator.createPatterns(TimeNamesEnglish.getTimeStrings()));
 
         System.out.println("loading solution");
         gen.loadSolution();

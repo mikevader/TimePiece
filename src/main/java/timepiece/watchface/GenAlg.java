@@ -10,11 +10,9 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 public class GenAlg {
 
@@ -22,13 +20,11 @@ public class GenAlg {
 
     private static final int POPULATION_SIZE = 1000;
 
+    private final PatternGenerator patternGenerator = new PatternGenerator();
     private final FitnessCalculator fitnessCalculator = new FitnessCalculator();
-    private char[] includedChar = null;
+    private WatchfacePattern watchfacePattern;
     private Solution solution = null;
     private Random rand = new Random();
-    private List<Pattern>[][] patterns = null;
-    private List<Pattern> wordPatterns = null;
-    private HashSet<String> inclWords = new HashSet<>();
 
     public static void main(String[] args) {
         GenAlg gen = new GenAlg();
@@ -38,7 +34,7 @@ public class GenAlg {
     private void run() {
 
         log.info("creating patterns");
-        createPatterns(TimeNamesEnglish.getTimeStrings());
+        this.watchfacePattern = patternGenerator.createPatterns(TimeNamesEnglish.getTimeStrings());
 
         log.info("loading solution");
         loadSolution();
@@ -56,7 +52,6 @@ public class GenAlg {
             } catch (InterruptedException ignored) {
             }
         }
-
     }
 
     public void incGeneration() {
@@ -65,7 +60,6 @@ public class GenAlg {
 
             if (getSolution().getGeneration() % 1000 == 0) {
                 log.info(String.format("best:  %4d: %s\n", getSolution().getGeneration(), getSolution().getFittest().toString()));
-//				System.out.printf("worst: %4d: %s\n",solution.generation,solution.worst.toString());
             }
 
             if (getSolution().getGeneration() % 10000 == 0) {
@@ -104,69 +98,6 @@ public class GenAlg {
             } while (r < 0 || r >= getSolution().getCandidates().size());
             if (!good && r == 0) r++;
             return getSolution().getCandidates().get(r);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    void createPatterns(List<String>[][] strings) {
-        HashSet<Character> inclChar = new HashSet<>();
-
-        setPatterns(new List[strings.length][]);
-
-        for (int hour = 0; hour < strings.length; hour++) {
-            getPatterns()[hour] = new List[strings[hour].length];
-            for (int minute = 0; minute < strings[hour].length; minute++) {
-                getPatterns()[hour][minute] = new LinkedList<>();
-                for (String time : strings[hour][minute]) {
-
-                    StringBuilder regex = new StringBuilder();
-                    String[] words = time.split(" ");
-                    for (String word : words) {
-
-                        if (regex.length() == 0) {
-                            regex.append("(.*)");
-                        } else {
-                            regex.append("(.+)");
-                        }
-
-                        StringBuilder subRegex = new StringBuilder();
-                        String[] subWords = word.split("\\+");
-                        for (String string : subWords) {
-                            if (subRegex.length() > 0) {
-                                subRegex.append("(.*)");
-                            }
-                            subRegex.append("(");
-                            subRegex.append(string);
-                            subRegex.append(")");
-                            getInclWords().add(string);
-
-                            char[] chars = string.toCharArray();
-                            for (char c : chars) {
-                                inclChar.add(c);
-                            }
-                        }
-
-                        regex.append(subRegex.toString());
-
-                    }
-                    regex.append("(.*)");
-                    getPatterns()[hour][minute].add(Pattern.compile(regex.toString()));
-                    //System.out.printf("%02d:%02d : %s\n", hour + 1, minute * 5, regex.toString());
-                    //System.out.printf("\t/%s/,\n", regex.toString());
-                }
-            }
-        }
-
-        StringBuilder charSet = new StringBuilder();
-        for (Character character : inclChar) {
-            if (character != ' ') charSet.append(character);
-        }
-        setIncludedChar(charSet.toString().toCharArray());
-        //System.out.println(charSet.toString());
-
-        setWordPatterns(new LinkedList<>());
-        for (String string : getInclWords()) {
-            getWordPatterns().add(Pattern.compile(".*" + string + ".*"));
         }
     }
 
@@ -283,7 +214,7 @@ public class GenAlg {
     public Candidate addRandomWord(Candidate source) {
         Candidate res = new Candidate();
 
-        Object[] words = getInclWords().toArray();
+        Object[] words = watchfacePattern.getInclWords().toArray();
         char[] word = words[getRand().nextInt(words.length)].toString().toCharArray();
         char[] cand = source.getCandidate().toCharArray();
 
@@ -308,21 +239,14 @@ public class GenAlg {
     }
 
     char getRandomChar() {
-        int pos = getRand().nextInt(getIncludedChar().length);
-        return getIncludedChar()[pos];
+        int pos = getRand().nextInt(watchfacePattern.getIncludedChar().length);
+        return watchfacePattern.getIncludedChar()[pos];
     }
 
     public void calcFitness(Candidate candidate) {
-        Fitness fitness = fitnessCalculator.calculate(candidate, patterns, wordPatterns);
-
-    }
-
-    public char[] getIncludedChar() {
-        return includedChar;
-    }
-
-    public void setIncludedChar(char[] includedChar) {
-        this.includedChar = includedChar;
+        Fitness fitness = fitnessCalculator.calculate(
+                candidate,
+                watchfacePattern);
     }
 
     public Solution getSolution() {
@@ -341,27 +265,11 @@ public class GenAlg {
         this.rand = rand;
     }
 
-    public List<Pattern>[][] getPatterns() {
-        return patterns;
+    public WatchfacePattern getWatchfacePattern() {
+        return this.watchfacePattern;
     }
 
-    public void setPatterns(List<Pattern>[][] patterns) {
-        this.patterns = patterns;
-    }
-
-    public List<Pattern> getWordPatterns() {
-        return wordPatterns;
-    }
-
-    public void setWordPatterns(List<Pattern> wordPatterns) {
-        this.wordPatterns = wordPatterns;
-    }
-
-    public HashSet<String> getInclWords() {
-        return inclWords;
-    }
-
-    public void setInclWords(HashSet<String> inclWords) {
-        this.inclWords = inclWords;
+    public void setWatchfacePattern(WatchfacePattern watchfacePattern) {
+        this.watchfacePattern = watchfacePattern;
     }
 }
