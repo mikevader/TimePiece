@@ -2,6 +2,7 @@ package timepiece.watchface;
 
 public class CandidateTestBuilder {
     private String schema;
+    private int fitness;
 
 
     public CandidateTestBuilder withSchema(String schema) {
@@ -57,10 +58,17 @@ public class CandidateTestBuilder {
         return this;
     }
 
+    public CandidateTestBuilder withFitness(int fitness) {
+        this.fitness = fitness;
+
+        return this;
+    }
+
     public Candidate build() {
         Candidate candidate = new Candidate();
 
         candidate.setCandidate(this.schema);
+        candidate.setFitness(fitness);
 
         return candidate;
     }

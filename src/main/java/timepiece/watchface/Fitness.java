@@ -1,5 +1,7 @@
 package timepiece.watchface;
 
+import java.util.Objects;
+
 public class Fitness {
     private int fitness;
     private int checkedOK = 0;
@@ -37,59 +39,52 @@ public class Fitness {
         return checkedOK;
     }
 
-    public void setCheckedOK(int checkedOK) {
-        this.checkedOK = checkedOK;
-    }
-
     public int getCheckedNOK() {
         return checkedNOK;
-    }
-
-    public void setCheckedNOK(int checkedNOK) {
-        this.checkedNOK = checkedNOK;
     }
 
     public int getCheckedTimesOK() {
         return checkedTimesOK;
     }
 
-    public void setCheckedTimesOK(int checkedTimesOK) {
-        this.checkedTimesOK = checkedTimesOK;
-    }
-
     public int getCheckedTimesNOK() {
         return checkedTimesNOK;
-    }
-
-    public void setCheckedTimesNOK(int checkedTimesNOK) {
-        this.checkedTimesNOK = checkedTimesNOK;
     }
 
     public int getSplitPos() {
         return splitPos;
     }
 
-    public void setSplitPos(int splitPos) {
-        this.splitPos = splitPos;
-    }
-
     public double getVariance() {
         return variance;
-    }
-
-    public void setVariance(double variance) {
-        this.variance = variance;
     }
 
     public double getAvgLen() {
         return avgLen;
     }
 
-    public void setAvgLen(double avgLen) {
-        this.avgLen = avgLen;
-    }
-
     public static Fitness createFitness(int fitness, int checkedOK, int checkedNOK, int checkedTimesOK, int checkedTimesNOK, int splitPos, double variance, double avgLen) {
         return new Fitness(fitness, checkedOK, checkedNOK, checkedTimesOK, checkedTimesNOK, splitPos, variance, avgLen);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Fitness fitness1 = (Fitness) o;
+        return fitness == fitness1.fitness &&
+                checkedOK == fitness1.checkedOK &&
+                checkedNOK == fitness1.checkedNOK &&
+                checkedTimesOK == fitness1.checkedTimesOK &&
+                checkedTimesNOK == fitness1.checkedTimesNOK &&
+                splitPos == fitness1.splitPos &&
+                Double.compare(fitness1.variance, variance) == 0 &&
+                Double.compare(fitness1.avgLen, avgLen) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(fitness, checkedOK, checkedNOK, checkedTimesOK, checkedTimesNOK, splitPos, variance, avgLen);
     }
 }

@@ -1,15 +1,12 @@
 package timepiece.watchface;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @XmlRootElement
 public class Solution {
     private int generation = 0;
-    private List<Candidate> candidates = new LinkedList<>();
-    private Candidate fittest = null;
-    private Candidate worst = null;
+    private SortedSet<Candidate> candidatesSorted = new TreeSet();
 
     public int getGeneration() {
         return generation;
@@ -19,27 +16,15 @@ public class Solution {
         this.generation = generation;
     }
 
-    public List<Candidate> getCandidates() {
-        return candidates;
-    }
-
-    public void setCandidates(List<Candidate> candidates) {
-        this.candidates = candidates;
+    public SortedSet<Candidate> getCandidates() {
+        return candidatesSorted;
     }
 
     public Candidate getFittest() {
-        return fittest;
-    }
-
-    public void setFittest(Candidate fittest) {
-        this.fittest = fittest;
+        return candidatesSorted.first();
     }
 
     public Candidate getWorst() {
-        return worst;
-    }
-
-    public void setWorst(Candidate worst) {
-        this.worst = worst;
+        return candidatesSorted.last();
     }
 }

@@ -36,19 +36,27 @@ class GenAlgTest {
 
     @Test
     void doAdd_minmax_equal() {
-        Solution solution = new Solution();
-        solution.setFittest(new Candidate());
-        solution.setWorst(new Candidate());
-        solution.getFittest().setFitness(100);
-        solution.getWorst().setFitness(100);
+        Candidate worst = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(100)
+                .build();
+        Candidate best = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(100)
+                .build();
 
-        Candidate candidate = new Candidate();
-        candidate.setFitness(0);
+        Solution solution = new Solution();
+        solution.getCandidates().add(best);
+        solution.getCandidates().add(worst);
+        genAlg.setSolution(solution);
+
+        Candidate candidate = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(0)
+                .build();
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
-
-        genAlg.setSolution(solution);
 
         boolean doAdd = genAlg.doAdd(candidate);
 
@@ -57,19 +65,25 @@ class GenAlgTest {
 
     @Test
     void doAdd_below_min() {
+        Candidate worst = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(80)
+                .build();
+        Candidate best = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(100)
+                .build();
+
         Solution solution = new Solution();
-        solution.setFittest(new Candidate());
-        solution.setWorst(new Candidate());
-        solution.getFittest().setFitness(100);
-        solution.getWorst().setFitness(80);
+        solution.getCandidates().add(worst);
+        solution.getCandidates().add(best);
+        genAlg.setSolution(solution);
 
         Candidate candidate = new Candidate();
         candidate.setFitness(10);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
-
-        genAlg.setSolution(solution);
 
         boolean doAdd = genAlg.doAdd(candidate);
 
@@ -78,20 +92,25 @@ class GenAlgTest {
 
     @Test
     void doAdd_fitness_between_minmax_high_prop() {
+        Candidate worst = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(-100)
+                .build();
+        Candidate best = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(100)
+                .build();
+
         Solution solution = new Solution();
-        solution.setFittest(new Candidate());
-        solution.setWorst(new Candidate());
-        solution.getFittest().setFitness(100);
-        solution.getWorst().setFitness(-100);
+        solution.getCandidates().add(worst);
+        solution.getCandidates().add(best);
+        genAlg.setSolution(solution);
 
         Candidate candidate = new Candidate();
         candidate.setFitness(0);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
-
-
-        genAlg.setSolution(solution);
 
         boolean doAdd = genAlg.doAdd(candidate);
 
@@ -100,19 +119,25 @@ class GenAlgTest {
 
     @Test
     void doAdd_fitness_between_minmax_low_prop() {
+        Candidate worst = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(0)
+                .build();
+        Candidate best = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(100)
+                .build();
+
         Solution solution = new Solution();
-        solution.setFittest(new Candidate());
-        solution.setWorst(new Candidate());
-        solution.getFittest().setFitness(100);
-        solution.getWorst().setFitness(0);
+        solution.getCandidates().add(worst);
+        solution.getCandidates().add(best);
+        genAlg.setSolution(solution);
 
         Candidate candidate = new Candidate();
         candidate.setFitness(10);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(1.0);
-
-        genAlg.setSolution(solution);
 
         boolean doAdd = genAlg.doAdd(candidate);
 
@@ -121,40 +146,48 @@ class GenAlgTest {
 
     @Test
     void getRandom() {
-        Solution solution = new Solution();
-        solution.setFittest(new Candidate());
-        solution.setWorst(new Candidate());
-        solution.getCandidates().add(solution.getFittest());
-        solution.getCandidates().add(solution.getWorst());
-        solution.getFittest().setFitness(100);
-        solution.getWorst().setFitness(80);
-        genAlg.setSolution(solution);
+        Candidate worst = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(80)
+                .build();
+        Candidate best = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(100)
+                .build();
 
+        Solution solution = new Solution();
+        solution.getCandidates().add(worst);
+        solution.getCandidates().add(best);
+        genAlg.setSolution(solution);
 
         when(random.nextGaussian()).thenReturn(-0.4);
         Candidate random = genAlg.getRandom(true);
 
         assertNotNull(random);
-        assertSame(solution.getFittest(), random);
+        assertSame(best, random);
     }
 
     @Test
     void getRandom_second() {
-        Solution solution = new Solution();
-        solution.setFittest(new Candidate());
-        solution.setWorst(new Candidate());
-        solution.getCandidates().add(solution.getFittest());
-        solution.getCandidates().add(solution.getWorst());
-        solution.getFittest().setFitness(100);
-        solution.getWorst().setFitness(80);
-        genAlg.setSolution(solution);
+        Candidate worst = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(80)
+                .build();
+        Candidate best = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(100)
+                .build();
 
+        Solution solution = new Solution();
+        solution.getCandidates().add(worst);
+        solution.getCandidates().add(best);
+        genAlg.setSolution(solution);
 
         when(random.nextGaussian()).thenReturn(-1.0);
         Candidate random = genAlg.getRandom(true);
 
         assertNotNull(random);
-        assertSame(solution.getWorst(), random);
+        assertSame(worst, random);
     }
 
     @Test
@@ -180,18 +213,22 @@ class GenAlgTest {
 
     @Test
     void addToSolution() {
+        Candidate worst = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(80)
+                .build();
+        Candidate best = new CandidateTestBuilder()
+                .withSchemaEmpty()
+                .withFitness(100)
+                .build();
+
         Solution solution = new Solution();
-        solution.setFittest(new Candidate());
-        solution.setWorst(new Candidate());
-        solution.getCandidates().add(solution.getFittest());
-        solution.getCandidates().add(solution.getWorst());
-        solution.getFittest().setFitness(100);
-        solution.getWorst().setFitness(80);
+        solution.getCandidates().add(worst);
+        solution.getCandidates().add(best);
+        genAlg.setSolution(solution);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
-
-        genAlg.setSolution(solution);
 
         Candidate candidate = new Candidate();
         candidate.setFitness(20);

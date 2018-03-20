@@ -10,9 +10,7 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GenAlg {
 
@@ -97,7 +95,7 @@ public class GenAlg {
                 if (!good) r = getSolution().getCandidates().size() - r + 1;
             } while (r < 0 || r >= getSolution().getCandidates().size());
             if (!good && r == 0) r++;
-            return getSolution().getCandidates().get(r);
+            return new ArrayList<>(getSolution().getCandidates()).get(r);
         }
     }
 
@@ -153,9 +151,6 @@ public class GenAlg {
             }
             System.out.println();
         }
-        sortSolution();
-        this.getSolution().setFittest(this.getSolution().getCandidates().get(0));
-        this.getSolution().setWorst(this.getSolution().getCandidates().get(this.getSolution().getCandidates().size() - 1));
     }
 
     private void saveSolution() {
@@ -171,21 +166,11 @@ public class GenAlg {
         synchronized (getSolution()) {
             if (this.getSolution().getCandidates().size() == POPULATION_SIZE) this.removeRandom();
             this.getSolution().getCandidates().add(candidate);
-            if (candidate.getFitness() >= this.getSolution().getFittest().getFitness()) this.getSolution().setFittest(candidate);
-            if (candidate.getFitness() <= this.getSolution().getWorst().getFitness()) this.getSolution().setWorst(candidate);
-            this.sortSolution();
         }
     }
 
     private void removeRandom() {
         this.getSolution().getCandidates().remove(getRandom(false));
-    }
-
-    private void sortSolution() {
-        this.getSolution().getCandidates().sort((o1, o2) -> {
-            Integer i = o1.getFitnessResult().getCheckedTimesNOK();
-            return i.compareTo(o2.getFitnessResult().getCheckedTimesNOK());
-        });
     }
 
     public Candidate mixTogether(Candidate left, Candidate right) {

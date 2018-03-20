@@ -1,6 +1,8 @@
 package timepiece.watchface;
 
-public class Candidate {
+import java.util.Objects;
+
+public class Candidate implements Comparable<Candidate> {
     private Fitness fitness = new Fitness();
 
 
@@ -93,8 +95,13 @@ public class Candidate {
 
     @Override
     public String toString() {
-        return String.format("%10d: splits: %d, check ok: %d, nok: %d, times ok: %d, nok %d, %s", fitness.getFitness(), fitness.getSplitPos(),
-                fitness.getCheckedOK(), fitness.getCheckedNOK(), fitness.getCheckedTimesOK(), fitness.getCheckedTimesNOK(),
+        return String.format("%10d: splits: %d, check ok: %d, nok: %d, times ok: %d, nok %d, %s",
+                fitness.getFitness(),
+                fitness.getSplitPos(),
+                fitness.getCheckedOK(),
+                fitness.getCheckedNOK(),
+                fitness.getCheckedTimesOK(),
+                fitness.getCheckedTimesNOK(),
                 getCandidate());
     }
 
@@ -120,5 +127,26 @@ public class Candidate {
 
     public void setCandidate(String candidate) {
         this.candidate = candidate;
+    }
+
+    @Override
+    public int compareTo(Candidate o) {
+        return Integer.compare(
+                o.getFitness(),
+                getFitness());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Candidate candidate1 = (Candidate) o;
+        return Objects.equals(fitness, candidate1.fitness) &&
+                Objects.equals(candidate, candidate1.candidate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fitness, candidate);
     }
 }
