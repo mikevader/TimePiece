@@ -1,0 +1,73 @@
+* {
+    box-sizing: inherit;
+}
+
+body {
+    background-color: #222;
+    color: #ddd;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.sch-Header {
+    display: flex;
+    position: sticky;
+    top: 0;
+    min-height: 75px;
+    background-color: #333;
+    border-bottom: 1px solid #444;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 11px;
+}
+
+.sch-Input {
+    height: 44px;
+    width: 100%;
+    max-width: 600px;
+    font-size: 22px;
+    padding: 0 5px;
+}
+
+.sch-Search {
+    box-sizing: border-box;
+    font-family: -apple-system, "Verdana";
+}
+
+.sch-Results {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.sch-Result + .sch-Result {
+    margin-top: 1em;
+}
+
+.sch-Result_Title {
+    margin: .1em 0;
+    font-weight: 400;
+    font-size: 1.4em;
+}
+
+.sch-Result_Detail {
+    font-size: .8em;
+    margin: .1em 0;
+    color: #aaa;
+    line-height: 1.4;
+}
+
+.sch-Result_Highlight {
+    background-color: rgba(255, 153,0,.31);
+    color: #fff;
+}
+
+.highlight {
+    background-color: rgba(255, 153,0,.31);
+    color: #fff;
+}
+
+.watchface td {
+    text-align: center;
+}

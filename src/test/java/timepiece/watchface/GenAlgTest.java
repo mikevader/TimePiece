@@ -18,10 +18,12 @@ class GenAlgTest {
     @BeforeEach
     void setUp() {
         PatternGenerator patternGenerator = new PatternGenerator();
+        WatchfacePattern patterns = patternGenerator.createPatterns(TimeNamesEnglish.getTimeStrings());
         random = mock(Random.class);
+        patterns.setRand(random);
         genAlg = new GenAlg();
         genAlg.setRand(random);
-        genAlg.setWatchfacePattern(patternGenerator.createPatterns(TimeNamesEnglish.getTimeStrings()));
+        genAlg.setWatchfacePattern(patterns);
     }
 
     @Test
@@ -191,27 +193,6 @@ class GenAlgTest {
     }
 
     @Test
-    void getRandomChar() {
-        char[] includedChars = new char[]{
-                'a', 'e', 'f', 'g', 'h', 'i', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'y'
-        };
-        when(random.nextInt(genAlg.getWatchfacePattern().getIncludedChar().length)).thenReturn(1);
-        char randomChar = genAlg.getRandomChar();
-
-        assertEquals('e', randomChar);
-    }
-
-    @Test
-    void createRandom() {
-        when(random.nextInt(genAlg.getWatchfacePattern().getIncludedChar().length)).thenReturn(1); // for getRandomChar()
-        when(random.nextInt(genAlg.getWatchfacePattern().getInclWords().size())).thenReturn(2); // for addRandomWord()
-        Candidate candidate = genAlg.createRandom();
-
-        String expCandiate = "halfeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee";
-        assertEquals(expCandiate, candidate.getCandidate());
-    }
-
-    @Test
     void addToSolution() {
         Candidate worst = new CandidateTestBuilder()
                 .withSchemaEmpty()
@@ -260,14 +241,5 @@ class GenAlgTest {
 
         String expCandidate = "XXXXXXXXXXe|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX";
         assertEquals(expCandidate, candidate.getCandidate());
-    }
-
-    @Test
-    void addRandomWord() {
-        when(random.nextInt(genAlg.getWatchfacePattern().getInclWords().size())).thenReturn(1);
-        Candidate newCandidate = genAlg.addRandomWord(new Candidate());
-
-        String expCandidate = "nineXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX";
-        assertEquals(expCandidate, newCandidate.getCandidate());
     }
 }

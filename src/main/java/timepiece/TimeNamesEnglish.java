@@ -66,7 +66,6 @@ public class TimeNamesEnglish {
 
                 if (minute == 1) m = "o five";
                 times[hour][minute].add(String.format(simpleFormat, h, m).trim());
-
             }
         }
 

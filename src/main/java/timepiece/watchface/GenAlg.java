@@ -99,28 +99,13 @@ public class GenAlg {
         }
     }
 
-    public Candidate createRandom() {
-        Candidate cand = new Candidate();
-        char[] c = cand.getCandidate().toCharArray();
-        for (int i = 0; i < c.length; i++) {
-            if (c[i] != '|') {
-                c[i] = getRandomChar();
-            }
-        }
-        cand.setCandidate(new String(c));
-        for (int j = 0; j < 100; j++) {
-            cand = addRandomWord(cand);
-        }
-        return cand;
-    }
-
     void loadSolution() {
         try {
             JAXBContext jc = JAXBContext.newInstance(Solution.class);
             Unmarshaller um = jc.createUnmarshaller();
             this.setSolution((Solution) um.unmarshal(new File("solution.xml")));
             for (int i = getSolution().getCandidates().size(); i < POPULATION_SIZE; i++) {
-                this.getSolution().getCandidates().add(createRandom());
+                this.getSolution().getCandidates().add(watchfacePattern.createRandom());
             }
             for (Candidate cand : getSolution().getCandidates()) {
                 calcFitness(cand);
@@ -132,7 +117,7 @@ public class GenAlg {
             for (int i = 0; i < POPULATION_SIZE; i++) {
 
                 if (i % 10 == 0) System.out.print(".");
-                Candidate c = createRandom();
+                Candidate c = watchfacePattern.createRandom();
                 if (i < 0 /*POPULATION_SIZE / 2*/) {
 //					c.candidate = "fünffzehnX|dreiXnachX|vorelfhalb|uhrviertel|siebenacht|dreisechsX|neundzwölf|zweinsuhrX|elfünfzehn|vierXXXXXX";
 //					c.candidate = "fünffzehnu|dreihnacht|vorelfhalb|uhrviertel|siebenacht|dreisechsz|neundzwölf|zweinsluhr|elfünfzehn|undvierzig";
@@ -174,58 +159,15 @@ public class GenAlg {
     }
 
     public Candidate mixTogether(Candidate left, Candidate right) {
-        Candidate res = new Candidate();
         int pos = getRand().nextInt(left.getCandidate().length());
-        res.setCandidate(left.getCandidate().substring(0, pos) + right.getCandidate().substring(pos));
-        return res;
+        return left.mixWith(right, pos);
     }
 
     public Candidate changeRandom(Candidate source) {
-        Candidate res = new Candidate();
+        int pos = getRand().nextInt(source.getCandidate().length());
+        char randomChar = getWatchfacePattern().getRandomChar();
 
-        char[] cand = source.getCandidate().toCharArray();
-
-        int pos;
-        do {
-            pos = getRand().nextInt(cand.length);
-        } while (cand[pos] == '|');
-
-        cand[pos] = getRandomChar();
-
-        res.setCandidate(new String(cand));
-        return res;
-    }
-
-    public Candidate addRandomWord(Candidate source) {
-        Candidate res = new Candidate();
-
-        Object[] words = watchfacePattern.getInclWords().toArray();
-        char[] word = words[getRand().nextInt(words.length)].toString().toCharArray();
-        char[] cand = source.getCandidate().toCharArray();
-
-        int pos;
-        boolean possible;
-        do {
-            possible = true;
-            pos = getRand().nextInt(cand.length);
-            for (int i = pos; i < pos + word.length && possible; i++) {
-                if (i >= cand.length) {
-                    possible = false;
-                } else if (cand[i] == '|') {
-                    possible = false;
-                }
-            }
-        } while (!possible);
-
-        System.arraycopy(word, 0, cand, pos, word.length);
-
-        res.setCandidate(new String(cand));
-        return res;
-    }
-
-    char getRandomChar() {
-        int pos = getRand().nextInt(watchfacePattern.getIncludedChar().length);
-        return watchfacePattern.getIncludedChar()[pos];
+        return source.changeChar(randomChar, pos);
     }
 
     public void calcFitness(Candidate candidate) {

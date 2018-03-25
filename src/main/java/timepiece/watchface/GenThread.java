@@ -19,11 +19,11 @@ public class GenThread extends Thread {
             if (action < 2) {
                 newCandidate = genAlg.mixTogether(genAlg.getRandom(true), genAlg.getRandom(true));
             } else if (action < 10) {
-                newCandidate = genAlg.addRandomWord(genAlg.getRandom(true));
+                newCandidate = genAlg.getWatchfacePattern().addRandomWord(genAlg.getRandom(true));
             } else if (action < 11) {
                 newCandidate = genAlg.changeRandom(genAlg.getRandom(true));
             } else {
-                newCandidate = genAlg.createRandom();
+                newCandidate = genAlg.getWatchfacePattern().createRandom();
             }
 
             genAlg.calcFitness(newCandidate);
