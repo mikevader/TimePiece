@@ -1,5 +1,7 @@
 package timepiece.times;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import timepiece.TimeNamesGerman;
 
 import java.io.FileWriter;
@@ -11,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GenerateHTML {
-
+    private static Logger logger = LogManager.getLogger(GenerateHTML.class);
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws IOException {
@@ -51,7 +53,7 @@ public class GenerateHTML {
 
                     }
                     regex.append("(.*)");
-                    System.out.printf("%2d:%02d : %s\n", hour + 1,
+                    logger.info("%2d:%02d : %s\n", hour + 1,
                             minute * 5, regex.toString());
                     patterns[hour][minute].add(Pattern.compile(regex
                             .toString()));

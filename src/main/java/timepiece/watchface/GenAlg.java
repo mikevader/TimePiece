@@ -117,12 +117,11 @@ public class GenAlg {
 
         for (int i = 0; i < POPULATION_SIZE; i++) {
 
-            if (i % 10 == 0) System.out.print(".");
+            if (i % 10 == 0) log.info(".");
             Candidate c = watchfacePattern.createRandom();
             calcFitness(c);
             newSolution.getCandidates().add(c);
         }
-        System.out.println();
 
         return newSolution;
     }

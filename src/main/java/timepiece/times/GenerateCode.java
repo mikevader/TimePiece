@@ -1,5 +1,7 @@
 package timepiece.times;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import timepiece.TimeNamesGerman;
 
 import java.util.LinkedList;
@@ -8,6 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GenerateCode {
+    private static Logger logger = LogManager.getLogger(GenerateCode.class);
+
     public static void main(String[] args) {
         List<String>[][] strings = TimeNamesGerman.getTimeStrings();
         List<Pattern>[][] patterns = new List[strings.length][];
@@ -44,7 +48,7 @@ public class GenerateCode {
                     }
 
                     regex.append("(.*)");
-                    System.out.printf("%2d:%02d : %s\n", hour + 1,
+                    logger.info("%2d:%02d : %s\n", hour + 1,
                             minute * 5, regex.toString());
                     patterns[hour][minute].add(Pattern.compile(regex
                             .toString()));
@@ -98,7 +102,7 @@ public class GenerateCode {
                         }
                         timeBytes.append(",");
 
-                        System.out.println(timeBytes.toString());
+                        logger.info(timeBytes.toString());
 
 
 //						System.out.println(bits.toString());

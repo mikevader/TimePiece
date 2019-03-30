@@ -1,10 +1,14 @@
 package timepiece;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TimeNamesEnglish {
+    private static Logger logger = LogManager.getLogger(TimeNamesEnglish.class);
 
     private static String[] getHours() {
         return new String[]{
@@ -129,7 +133,7 @@ public class TimeNamesEnglish {
         for (List<String>[] lists : ts) {
             for (List<String> list : lists) {
                 for (String string : list) {
-                    System.out.println(string);
+                    logger.info(string);
                 }
             }
         }

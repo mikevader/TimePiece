@@ -1,5 +1,7 @@
 package timepiece.watchface;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import timepiece.TimeNamesEnglish;
 
 import java.util.Arrays;
@@ -10,6 +12,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PatternGenerator {
+    private static Logger logger = LogManager.getLogger(PatternGenerator.class);
+
 
     WatchfacePattern createPatterns(List<String>[][] times) {
         List<Pattern>[][] patterns = new List[times.length][];
@@ -80,20 +84,20 @@ public class PatternGenerator {
         WatchfacePattern watchfacePattern = new PatternGenerator().createPatterns(TimeNamesEnglish.getTimeStrings2());
         List<Pattern>[][] patterns = watchfacePattern.getPatterns();
 
-        System.out.println("times = [");
+        logger.info("times = [");
         for (int i = 0; i < patterns.length; i++) {
-            System.out.println("    [");
+            logger.info("    [");
             for (int j = 0; j < patterns[i].length; j++) {
-                System.out.println("        [\"" + String.join("\", \"", patterns[i][j].stream().map(Pattern::toString).collect(Collectors.toList())) + "\"],");
+                logger.info("        [\"" + String.join("\", \"", patterns[i][j].stream().map(Pattern::toString).collect(Collectors.toList())) + "\"],");
             }
-            System.out.println("    ],");
+            logger.info("    ],");
         }
-        System.out.println("];");
+        logger.info("];");
 
-        System.out.println("names = [\"" + String.join("\", \"", watchfacePattern.getInclWords()) + "\"];");
+        logger.info("names = [\"" + String.join("\", \"", watchfacePattern.getInclWords()) + "\"];");
 
         for (int x = 0; x < watchfacePattern.getIncludedChar().length; x++) {
-            System.out.println(watchfacePattern.getIncludedChar()[x]);
+            logger.info(watchfacePattern.getIncludedChar()[x]);
         }
     }
 }
