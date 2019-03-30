@@ -23,47 +23,47 @@ public class Fitness {
         this.avgLen = avgLen;
     }
 
-    public Fitness() {
+    Fitness() {
         this.fitness = Integer.MIN_VALUE;
     }
 
-    public int getFitness() {
+    int getFitness() {
         return fitness;
     }
 
-    public void setFitness(int fitness) {
+    void setFitness(int fitness) {
         this.fitness = fitness;
     }
 
-    public int getCheckedOK() {
+    int getCheckedOK() {
         return checkedOK;
     }
 
-    public int getCheckedNOK() {
+    int getCheckedNOK() {
         return checkedNOK;
     }
 
-    public int getCheckedTimesOK() {
+    int getCheckedTimesOK() {
         return checkedTimesOK;
     }
 
-    public int getCheckedTimesNOK() {
+    int getCheckedTimesNOK() {
         return checkedTimesNOK;
     }
 
-    public int getSplitPos() {
+    int getSplitPos() {
         return splitPos;
     }
 
-    public double getVariance() {
+    double getVariance() {
         return variance;
     }
 
-    public double getAvgLen() {
+    double getAvgLen() {
         return avgLen;
     }
 
-    public static Fitness createFitness(int fitness, int checkedOK, int checkedNOK, int checkedTimesOK, int checkedTimesNOK, int splitPos, double variance, double avgLen) {
+    static Fitness createFitness(int fitness, int checkedOK, int checkedNOK, int checkedTimesOK, int checkedTimesNOK, int splitPos, double variance, double avgLen) {
         return new Fitness(fitness, checkedOK, checkedNOK, checkedTimesOK, checkedTimesNOK, splitPos, variance, avgLen);
     }
 

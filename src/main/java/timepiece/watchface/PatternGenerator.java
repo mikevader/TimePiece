@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class PatternGenerator {
 
-    public WatchfacePattern createPatterns(List<String>[][] times) {
+    WatchfacePattern createPatterns(List<String>[][] times) {
         List<Pattern>[][] patterns = new List[times.length][];
         List<Pattern> wordPatterns = new LinkedList<>();
         HashSet<String> inclWords = new HashSet<>();

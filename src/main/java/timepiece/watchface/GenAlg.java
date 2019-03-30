@@ -64,7 +64,7 @@ public class GenAlg {
         }
     }
 
-    public void incGeneration() {
+    void incGeneration() {
         synchronized (getSolution()) {
             getSolution().setGeneration(getSolution().getGeneration() + 1);
 
@@ -89,7 +89,7 @@ public class GenAlg {
         }
     }
 
-    public boolean doAdd(Candidate candidate) {
+    boolean doAdd(Candidate candidate) {
         int max = getSolution().getFittest().getFitness();
         int min = getSolution().getWorst().getFitness();
         if (max == min) return true;
@@ -99,7 +99,7 @@ public class GenAlg {
         return getRand().nextDouble() < prob;
     }
 
-    public Candidate getRandom(boolean good) {
+    Candidate getRandom(boolean good) {
         synchronized (getSolution()) {
             int r;
             do {
@@ -151,7 +151,7 @@ public class GenAlg {
         }
     }
 
-    public void addToSolution(Candidate candidate) {
+    void addToSolution(Candidate candidate) {
         synchronized (getSolution()) {
             if (this.getSolution().getCandidates().size() == POPULATION_SIZE) this.removeRandom();
             this.getSolution().getCandidates().add(candidate);
@@ -162,45 +162,45 @@ public class GenAlg {
         this.getSolution().getCandidates().remove(getRandom(false));
     }
 
-    public Candidate mixTogether(Candidate left, Candidate right) {
+    Candidate mixTogether(Candidate left, Candidate right) {
         int pos = getRand().nextInt(left.getCandidate().length());
         return left.mixWith(right, pos);
     }
 
-    public Candidate changeRandom(Candidate source) {
+    Candidate changeRandom(Candidate source) {
         int pos = getRand().nextInt(source.getCandidate().length());
         char randomChar = getWatchfacePattern().getRandomChar();
 
         return source.changeChar(randomChar, pos);
     }
 
-    public void calcFitness(Candidate candidate) {
-        Fitness fitness = fitnessCalculator.calculate(
+    void calcFitness(Candidate candidate) {
+        fitnessCalculator.calculate(
                 candidate,
                 watchfacePattern);
     }
 
-    public Solution getSolution() {
+    Solution getSolution() {
         return solution;
     }
 
-    public void setSolution(Solution solution) {
+    void setSolution(Solution solution) {
         this.solution = solution;
     }
 
-    public Random getRand() {
+    Random getRand() {
         return rand;
     }
 
-    public void setRand(Random rand) {
+    void setRand(Random rand) {
         this.rand = rand;
     }
 
-    public WatchfacePattern getWatchfacePattern() {
+    WatchfacePattern getWatchfacePattern() {
         return this.watchfacePattern;
     }
 
-    public void setWatchfacePattern(WatchfacePattern watchfacePattern) {
+    void setWatchfacePattern(WatchfacePattern watchfacePattern) {
         this.watchfacePattern = watchfacePattern;
     }
 }

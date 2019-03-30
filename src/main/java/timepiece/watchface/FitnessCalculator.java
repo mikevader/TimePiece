@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FitnessCalculator {
+class FitnessCalculator {
     private static final int NONE_FOUND_PENALTY = -10000;
     private static final int NOT_MATCHED_PENALTY = -10;
     private static final int MATCH_BONUS = 1000;
@@ -14,7 +14,7 @@ public class FitnessCalculator {
     private static final int LOW_SPLIT_BONUS = 100;
     private static final int VARIANCE_PENALTY = 1;
 
-    public Fitness calculate(Candidate candidate, WatchfacePattern watchfacePattern) {
+    Fitness calculate(Candidate candidate, WatchfacePattern watchfacePattern) {
         int fitness = 0;
         int checkedOK = 0;
         int checkedNOK = 0;

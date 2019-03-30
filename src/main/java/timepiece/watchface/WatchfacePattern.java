@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-public class WatchfacePattern {
+class WatchfacePattern {
     private List<Pattern>[][] patterns = null;
     private List<Pattern> wordPatterns = null;
     private HashSet<String> inclWords = new HashSet<>();
@@ -14,30 +14,30 @@ public class WatchfacePattern {
     private Random rand = new Random();
 
 
-    public WatchfacePattern(List<Pattern>[][] patterns, List<Pattern> wordPatterns, HashSet<String> inclWords, char[] includedChar) {
+    WatchfacePattern(List<Pattern>[][] patterns, List<Pattern> wordPatterns, HashSet<String> inclWords, char[] includedChar) {
         this.patterns = patterns;
         this.wordPatterns = wordPatterns;
         this.inclWords = inclWords;
         this.includedChar = includedChar;
     }
 
-    public List<Pattern>[][] getPatterns() {
+    List<Pattern>[][] getPatterns() {
         return patterns;
     }
 
-    public List<Pattern> getWordPatterns() {
+    List<Pattern> getWordPatterns() {
         return wordPatterns;
     }
 
-    public Set<String> getInclWords() {
+    Set<String> getInclWords() {
         return inclWords;
     }
 
-    public char[] getIncludedChar() {
+    char[] getIncludedChar() {
         return includedChar;
     }
 
-    public Candidate createRandom() {
+    Candidate createRandom() {
         Candidate cand = new Candidate();
         char[] c = cand.getCandidate().toCharArray();
         for (int i = 0; i < c.length; i++) {
@@ -57,7 +57,7 @@ public class WatchfacePattern {
         return getIncludedChar()[pos];
     }
 
-    public Candidate addRandomWord(Candidate source) {
+    Candidate addRandomWord(Candidate source) {
         Candidate res = new Candidate();
 
         Object[] words = getInclWords().toArray();
@@ -84,7 +84,7 @@ public class WatchfacePattern {
         return res;
     }
 
-    public Random getRand() {
+    private Random getRand() {
         return rand;
     }
 

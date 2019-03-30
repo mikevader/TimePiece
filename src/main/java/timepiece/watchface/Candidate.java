@@ -105,19 +105,19 @@ public class Candidate implements Comparable<Candidate> {
                 getCandidate());
     }
 
-    public Fitness getFitnessResult() {
+    Fitness getFitnessResult() {
         return fitness;
     }
 
-    public void setFitnessResult(Fitness fitness) {
+    void setFitnessResult(Fitness fitness) {
         this.fitness = fitness;
     }
 
-    public int getFitness() {
+    int getFitness() {
         return fitness.getFitness();
     }
 
-    public void setFitness(int fitness) {
+    void setFitness(int fitness) {
         this.fitness.setFitness(fitness);
     }
 
@@ -129,13 +129,13 @@ public class Candidate implements Comparable<Candidate> {
         this.candidate = candidate;
     }
 
-    public Candidate mixWith(Candidate other, int atPosition) {
+    Candidate mixWith(Candidate other, int atPosition) {
         Candidate res = new Candidate();
         res.setCandidate(this.getCandidate().substring(0, atPosition) + other.getCandidate().substring(atPosition));
         return res;
     }
 
-    public Candidate changeChar(char character, int atPosition) {
+    Candidate changeChar(char character, int atPosition) {
         Candidate res = new Candidate();
 
         char[] cand = getCandidate().toCharArray();
