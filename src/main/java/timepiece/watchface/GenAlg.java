@@ -95,7 +95,7 @@ public class GenAlg {
         if (max == min) return true;
         if (candidate.getFitnessScore() < min) return getRand().nextInt(100) < 10;
 
-        double prob = (candidate.getFitnessScore() - min) / (max - min) + 0.1;
+        double prob = (candidate.getFitnessScore() - min) / (double)(max - min) + 0.1;
         return getRand().nextDouble() < prob;
     }
 
