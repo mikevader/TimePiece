@@ -62,53 +62,52 @@ public class GenerateHTML {
             }
         }
 
-        FileWriter htmlOut = new FileWriter("visu.html");
+        try (FileWriter htmlOut = new FileWriter("visu.html")) {
+            int solution = 0;
+            HashSet<Integer> splitPos = new HashSet<>();
+            for (int hour = 0; hour < strings.length; hour++) {
+                for (int minute = 0; minute < strings[hour].length; minute++) {
+                    for (Pattern pattern : patterns[hour][minute]) {
+                        Matcher matcher = pattern.matcher(cand);
+                        if (matcher.matches()) {
+                            solution++;
 
-        int solution = 0;
-        HashSet<Integer> splitPos = new HashSet<>();
-        for (int hour = 0; hour < strings.length; hour++) {
-            for (int minute = 0; minute < strings[hour].length; minute++) {
-                for (Pattern pattern : patterns[hour][minute]) {
-                    Matcher matcher = pattern.matcher(cand);
-                    if (matcher.matches()) {
-                        solution++;
+                            htmlOut
+                                    .write(String
+                                            .format(
+                                                    "<div class='solution english_solution' id='english_time%d'>",
+                                                    solution));
+                            htmlOut.write(String.format(
+                                    "<span class='time'>%2d:%02d</span>", hour + 1,
+                                    minute * 5));
 
-                        htmlOut
-                                .write(String
-                                        .format(
-                                                "<div class='solution english_solution' id='english_time%d'>",
-                                                solution));
-                        htmlOut.write(String.format(
-                                "<span class='time'>%2d:%02d</span>", hour + 1,
-                                minute * 5));
+                            htmlOut.write("<div class='times'>");
+                            for (int i = 1; i <= matcher.groupCount(); i++) {
+                                splitPos.add(matcher.start(i));
+                                if (i % 2 == 1) {
+                                    htmlOut.write(String.format(
+                                            "<span class='background'>%s</span>",
+                                            matcher.group(i).toUpperCase()
+                                                    .replaceAll("\\|</span>", "</span><br />")
+                                                    .replaceAll("\\|", "<br />")));
+                                } else {
 
-                        htmlOut.write("<div class='times'>");
-                        for (int i = 1; i <= matcher.groupCount(); i++) {
-                            splitPos.add(matcher.start(i));
-                            if (i % 2 == 1) {
-                                htmlOut.write(String.format(
-                                        "<span class='background'>%s</span>",
-                                        matcher.group(i).toUpperCase()
-                                                .replaceAll("\\|</span>", "</span><br />")
-                                                .replaceAll("\\|", "<br />")));
-                            } else {
-
-                                htmlOut.write(String.format(
-                                        "<span class='highlight'>%s</span>",
-                                        matcher.group(i).toUpperCase()
-                                                .replaceAll("\\|</span>", "</span><br />")
-                                                .replaceAll("\\|", "<br />")));
+                                    htmlOut.write(String.format(
+                                            "<span class='highlight'>%s</span>",
+                                            matcher.group(i).toUpperCase()
+                                                    .replaceAll("\\|</span>", "</span><br />")
+                                                    .replaceAll("\\|", "<br />")));
+                                }
                             }
-                        }
-                        htmlOut.write("</div>");
+                            htmlOut.write("</div>");
 
-                        htmlOut.write("</div>\n");
+                            htmlOut.write("</div>\n");
+                        }
                     }
                 }
             }
-        }
 
-        htmlOut.flush();
-        htmlOut.close();
+            htmlOut.flush();
+        }
     }
 }

@@ -11,7 +11,6 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ public class GenAlg {
         this.watchfacePattern = patternGenerator.createPatterns(TimeNamesEnglish.getTimeStrings2());
 
         Path solutionFile = Paths.get("solution.xml");
-        if (Files.exists(solutionFile)) {
+        if (solutionFile.toFile().exists()) {
             log.info("loading solution");
             loadSolution(solutionFile);
         } else {
