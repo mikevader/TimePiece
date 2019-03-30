@@ -10,7 +10,13 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 public class GenAlg {
 
@@ -34,8 +40,14 @@ public class GenAlg {
         log.info("creating patterns");
         this.watchfacePattern = patternGenerator.createPatterns(TimeNamesEnglish.getTimeStrings2());
 
-        log.info("loading solution");
-        loadSolution();
+        Path solutionFile = Paths.get("solution.xml");
+        if (Files.exists(solutionFile)) {
+            log.info("loading solution");
+            loadSolution(solutionFile);
+        } else {
+            log.info("create empty solution");
+            setSolution(createNewSolution());
+        }
 
         List<GenThread> threads = new LinkedList<>();
         for (int i = 0; i < 25; i++) {
@@ -99,11 +111,26 @@ public class GenAlg {
         }
     }
 
-    void loadSolution() {
+    Solution createNewSolution() {
+        Solution solution = new Solution();
+
+        for (int i = 0; i < POPULATION_SIZE; i++) {
+
+            if (i % 10 == 0) System.out.print(".");
+            Candidate c = watchfacePattern.createRandom();
+            calcFitness(c);
+            solution.getCandidates().add(c);
+        }
+        System.out.println();
+
+        return solution;
+    }
+
+    void loadSolution(Path solutionFile) {
         try {
             JAXBContext jc = JAXBContext.newInstance(Solution.class);
             Unmarshaller um = jc.createUnmarshaller();
-            this.setSolution((Solution) um.unmarshal(new File("solution.xml")));
+            this.setSolution((Solution) um.unmarshal(solutionFile.toFile()));
             for (int i = getSolution().getCandidates().size(); i < POPULATION_SIZE; i++) {
                 this.getSolution().getCandidates().add(watchfacePattern.createRandom());
             }
@@ -111,30 +138,7 @@ public class GenAlg {
                 calcFitness(cand);
             }
         } catch (Exception e) {
-            log.error("solution not found", e);
-            this.setSolution(new Solution());
-
-            for (int i = 0; i < POPULATION_SIZE; i++) {
-
-                if (i % 10 == 0) System.out.print(".");
-                Candidate c = watchfacePattern.createRandom();
-                if (i < 0 /*POPULATION_SIZE / 2*/) {
-//					c.candidate = "fünffzehnX|dreiXnachX|vorelfhalb|uhrviertel|siebenacht|dreisechsX|neundzwölf|zweinsuhrX|elfünfzehn|vierXXXXXX";
-//					c.candidate = "fünffzehnu|dreihnacht|vorelfhalb|uhrviertel|siebenacht|dreisechsz|neundzwölf|zweinsluhr|elfünfzehn|undvierzig";
-
-                    //11x11
-                    //c.candidate = "XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX";
-
-                    //10x10
-                    //c.candidate = "XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX|XXXXXXXXXX";
-
-                    //circle
-                    c.setCandidate("ONER|SETHIRTY|FIFTYPTYHALF|FTENETWENTYR|FIVENTPASTNINE|TIELEVENTHREEH|XSIXTFIFTEENTWOEN|TWELVEEIGHTSEVENR|YWEQUARTERFOURTYE|FOFIVENTCLOCKTENY|NINEEPASTENTOU|FIFTEENFOURTHY|TWOHFIFTYEWR|THIRTYTWENTY|FIVENONE|YTEN");
-                }
-                calcFitness(c);
-                this.getSolution().getCandidates().add(c);
-            }
-            System.out.println();
+            log.error("solution not readable", e);
         }
     }
 

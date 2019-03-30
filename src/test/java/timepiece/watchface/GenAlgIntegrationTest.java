@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import timepiece.TimeNamesEnglish;
 
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class GenAlgIntegrationTest {
         gen.setWatchfacePattern(patternGenerator.createPatterns(TimeNamesEnglish.getTimeStrings()));
 
         System.out.println("loading solution");
-        gen.loadSolution();
+        gen.loadSolution(Paths.get("solution.xml"));
 
         List<GenThread> threads = new LinkedList<>();
         for (int i = 0; i < 25; i++) {
@@ -46,7 +47,7 @@ public class GenAlgIntegrationTest {
         gen.setWatchfacePattern(patternGenerator.createPatterns(TimeNamesEnglish.getTimeStrings()));
 
         System.out.println("loading solution");
-        gen.loadSolution();
+        gen.loadSolution(Paths.get("solution.xml"));
 
         Candidate currentBest = null;
         int stableFor = 0;
