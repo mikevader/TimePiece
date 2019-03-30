@@ -70,7 +70,7 @@ public class GenAlg {
             getSolution().setGeneration(getSolution().getGeneration() + 1);
 
             if (getSolution().getGeneration() % 1000 == 0) {
-                log.info(String.format("best:  %4d: %s\n", getSolution().getGeneration(), getSolution().getFittest().toString()));
+                log.info(String.format("best:  %4d: %s%n", getSolution().getGeneration(), getSolution().getFittest().toString()));
             }
 
             if (getSolution().getGeneration() % 10000 == 0) {

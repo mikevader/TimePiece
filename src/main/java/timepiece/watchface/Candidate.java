@@ -3,6 +3,7 @@ package timepiece.watchface;
 import java.util.Objects;
 
 public class Candidate implements Comparable<Candidate> {
+    public static final String XXXXXXXXXXX = "XXXXXXXXXXX|";
     private Fitness fitness = new Fitness();
 
 
@@ -20,16 +21,16 @@ public class Candidate implements Comparable<Candidate> {
 
 
     private String watchFace = //11x11
-            "XXXXXXXXXXX|" +
-                    "XXXXXXXXXXX|" +
-                    "XXXXXXXXXXX|" +
-                    "XXXXXXXXXXX|" +
-                    "XXXXXXXXXXX|" +
-                    "XXXXXXXXXXX|" +
-                    "XXXXXXXXXXX|" +
-                    "XXXXXXXXXXX|" +
-                    "XXXXXXXXXXX|" +
-                    "XXXXXXXXXXX|" +
+            XXXXXXXXXXX +
+                    XXXXXXXXXXX +
+                    XXXXXXXXXXX +
+                    XXXXXXXXXXX +
+                    XXXXXXXXXXX +
+                    XXXXXXXXXXX +
+                    XXXXXXXXXXX +
+                    XXXXXXXXXXX +
+                    XXXXXXXXXXX +
+                    XXXXXXXXXXX +
                     "XXXXXXXXXXX";
 
 

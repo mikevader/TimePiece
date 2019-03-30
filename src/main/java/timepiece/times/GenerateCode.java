@@ -84,7 +84,6 @@ public class GenerateCode {
 
 
                         StringBuilder timeBytes = new StringBuilder();
-                        timeBytes.append("");
                         timeBytes.append(String.format("%3d", (hour + 1) * 12 + minute));
                         timeBytes.append(String.format(" /* %2d:%02d */", hour + 1,
                                 minute * 5));
