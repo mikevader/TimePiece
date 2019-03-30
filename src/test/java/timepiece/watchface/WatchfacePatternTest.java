@@ -41,17 +41,17 @@ class WatchfacePatternTest {
         Candidate candidate = pattern.createRandom();
 
         String expCandiate = "halfeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee|eeeeeeeeeee";
-        assertEquals(expCandiate, candidate.getCandidate());
+        assertEquals(expCandiate, candidate.getWatchFace());
     }
 
     @Test
     void addRandomWord() {
         Candidate source = new Candidate();
         when(random.nextInt(pattern.getInclWords().size())).thenReturn(1); // random word
-        when(random.nextInt(source.getCandidate().length())).thenReturn(2); // random location
+        when(random.nextInt(source.getWatchFace().length())).thenReturn(2); // random location
         Candidate newCandidate = pattern.addRandomWord(source);
 
         String expCandidate = "XXnineXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX";
-        assertEquals(expCandidate, newCandidate.getCandidate());
+        assertEquals(expCandidate, newCandidate.getWatchFace());
     }
 }

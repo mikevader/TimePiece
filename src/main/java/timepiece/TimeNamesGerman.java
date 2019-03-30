@@ -6,7 +6,7 @@ import java.util.List;
 public class TimeNamesGerman {
 
     private static String[] getHours() {
-        String[] hours = {
+        return new String[]{
                 "eins",
                 "zwei",
                 "drei",
@@ -20,11 +20,10 @@ public class TimeNamesGerman {
                 "elf",
                 "zwölf"
         };
-        return hours;
     }
 
     private static String[] getMinutes() {
-        String[] minutes = {
+        return new String[]{
                 "null",
                 "fünf",
                 "zehn",
@@ -38,7 +37,6 @@ public class TimeNamesGerman {
                 "fünfzig",
                 "fünf+und+fünfzig"
         };
-        return minutes;
     }
 
 

@@ -6,7 +6,7 @@ public class Candidate implements Comparable<Candidate> {
     private Fitness fitness = new Fitness();
 
 
-//	public String candidate = //10x10
+//	public String watchFace = //10x10
 //		"XXXXXXXXXX|" +
 //		"XXXXXXXXXX|" +
 //		"XXXXXXXXXX|" +
@@ -19,7 +19,7 @@ public class Candidate implements Comparable<Candidate> {
 //		"XXXXXXXXXX";
 
 
-    private String candidate = //11x11
+    private String watchFace = //11x11
             "XXXXXXXXXXX|" +
                     "XXXXXXXXXXX|" +
                     "XXXXXXXXXXX|" +
@@ -34,7 +34,7 @@ public class Candidate implements Comparable<Candidate> {
 
 
     //circle
-//	public String candidate = //circle
+//	public String watchFace = //circle
 //			      "ONER|" +
 //			    "SETHIRTY|" +
 //			  "FIFTYPTYHALF|" +
@@ -52,7 +52,7 @@ public class Candidate implements Comparable<Candidate> {
 //			   "FIVENONE|" +
 //			     "YTEN";
 
-//		public String candidate = //triangle		
+//		public String watchFace = //triangle
 //			"PSEVENSIXTWELVEN|" +
 //			"ONELEVENINEIGHT|" +
 //			"TWENTYHYYTENNY|" +
@@ -70,7 +70,7 @@ public class Candidate implements Comparable<Candidate> {
 //			"TO|" +
 //			"W";
 
-//		public String candidate = //diamond
+//		public String watchFace = //diamond
 //			"H|" +
 //			"TO|" +
 //			"SIX|" +
@@ -102,7 +102,7 @@ public class Candidate implements Comparable<Candidate> {
                 fitness.getCheckedNOK(),
                 fitness.getCheckedTimesOK(),
                 fitness.getCheckedTimesNOK(),
-                getCandidate());
+                getWatchFace());
     }
 
     Fitness getFitnessResult() {
@@ -121,24 +121,24 @@ public class Candidate implements Comparable<Candidate> {
         this.fitness.setScore(fitness);
     }
 
-    public String getCandidate() {
-        return candidate;
+    public String getWatchFace() {
+        return watchFace;
     }
 
-    public void setCandidate(String candidate) {
-        this.candidate = candidate;
+    public void setWatchFace(String watchFace) {
+        this.watchFace = watchFace;
     }
 
     Candidate mixWith(Candidate other, int atPosition) {
         Candidate res = new Candidate();
-        res.setCandidate(this.getCandidate().substring(0, atPosition) + other.getCandidate().substring(atPosition));
+        res.setWatchFace(this.getWatchFace().substring(0, atPosition) + other.getWatchFace().substring(atPosition));
         return res;
     }
 
     Candidate changeChar(char character, int atPosition) {
         Candidate res = new Candidate();
 
-        char[] cand = getCandidate().toCharArray();
+        char[] cand = getWatchFace().toCharArray();
 
         int pos = atPosition;
         while (cand[pos] == '|') {
@@ -147,7 +147,7 @@ public class Candidate implements Comparable<Candidate> {
 
         cand[pos] = character;
 
-        res.setCandidate(new String(cand));
+        res.setWatchFace(new String(cand));
         return res;
     }
 
@@ -164,11 +164,11 @@ public class Candidate implements Comparable<Candidate> {
         if (o == null || getClass() != o.getClass()) return false;
         Candidate candidate1 = (Candidate) o;
         return Objects.equals(fitness, candidate1.fitness) &&
-                Objects.equals(candidate, candidate1.candidate);
+                Objects.equals(watchFace, candidate1.watchFace);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fitness, candidate);
+        return Objects.hash(fitness, watchFace);
     }
 }

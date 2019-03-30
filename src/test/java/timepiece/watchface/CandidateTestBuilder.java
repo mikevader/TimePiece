@@ -67,7 +67,7 @@ public class CandidateTestBuilder {
     public Candidate build() {
         Candidate candidate = new Candidate();
 
-        candidate.setCandidate(this.schema);
+        candidate.setWatchFace(this.schema);
         candidate.setFitnessScore(fitness);
 
         return candidate;

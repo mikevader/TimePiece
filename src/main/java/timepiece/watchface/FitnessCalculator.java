@@ -26,7 +26,7 @@ class FitnessCalculator {
             for (List<Pattern> aPattern : pattern) {
                 boolean oneFound = false;
                 for (Pattern timeRegEx : aPattern) {
-                    Matcher m = timeRegEx.matcher(candidate.getCandidate());
+                    Matcher m = timeRegEx.matcher(candidate.getWatchFace());
                     if (m.matches()) {
                         oneFound = true;
                         score += MATCH_BONUS;
@@ -49,7 +49,7 @@ class FitnessCalculator {
         }
 
         for (Pattern word : watchfacePattern.getWordPatterns()) {
-            Matcher m = word.matcher(candidate.getCandidate());
+            Matcher m = word.matcher(candidate.getWatchFace());
             if (m.matches()) {
                 score += WORD_MATCH_BONUS;
             }

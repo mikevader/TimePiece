@@ -39,13 +39,13 @@ class WatchfacePattern {
 
     Candidate createRandom() {
         Candidate cand = new Candidate();
-        char[] c = cand.getCandidate().toCharArray();
+        char[] c = cand.getWatchFace().toCharArray();
         for (int i = 0; i < c.length; i++) {
             if (c[i] != '|') {
                 c[i] = getRandomChar();
             }
         }
-        cand.setCandidate(new String(c));
+        cand.setWatchFace(new String(c));
         for (int j = 0; j < 100; j++) {
             cand = addRandomWord(cand);
         }
@@ -62,7 +62,7 @@ class WatchfacePattern {
 
         Object[] words = getInclWords().toArray();
         char[] word = words[getRand().nextInt(words.length)].toString().toCharArray();
-        char[] cand = source.getCandidate().toCharArray();
+        char[] cand = source.getWatchFace().toCharArray();
 
         int pos;
         boolean possible;
@@ -80,7 +80,7 @@ class WatchfacePattern {
 
         System.arraycopy(word, 0, cand, pos, word.length);
 
-        res.setCandidate(new String(cand));
+        res.setWatchFace(new String(cand));
         return res;
     }
 

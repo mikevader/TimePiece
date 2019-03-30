@@ -19,7 +19,7 @@ class CandidateTest {
         Candidate mix = left.mixWith(right, 20);
 
         String expCandiate = "aaaaXXXXXXX|aaaaXXXXbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb";
-        assertEquals(expCandiate, mix.getCandidate());
+        assertEquals(expCandiate, mix.getWatchFace());
     }
 
     @Test
@@ -30,7 +30,7 @@ class CandidateTest {
         Candidate candidate = source.changeChar('e', 10);
 
         String expCandidate = "XXXXXXXXXXe|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX";
-        assertEquals(expCandidate, candidate.getCandidate());
+        assertEquals(expCandidate, candidate.getWatchFace());
     }
 
     @Test
@@ -41,7 +41,7 @@ class CandidateTest {
         Candidate candidate = source.changeChar('q', 11);
 
         String expCandidate = "XXXXXXXXXXX|qXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX";
-        assertEquals(expCandidate, candidate.getCandidate());
+        assertEquals(expCandidate, candidate.getWatchFace());
     }
 
     @Test

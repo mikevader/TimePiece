@@ -222,24 +222,24 @@ class GenAlgTest {
     @Test
     void mixTogether() {
         Candidate left = new Candidate();
-        left.setCandidate("aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX");
+        left.setWatchFace("aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX|aaaaXXXXXXX");
         Candidate right = new Candidate();
-        right.setCandidate("XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb");
-        when(random.nextInt(left.getCandidate().length())).thenReturn(20);
+        right.setWatchFace("XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb");
+        when(random.nextInt(left.getWatchFace().length())).thenReturn(20);
         Candidate mix = genAlg.mixTogether(left, right);
 
         String expCandiate = "aaaaXXXXXXX|aaaaXXXXbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb|XXXXXXXbbbb";
-        assertEquals(expCandiate, mix.getCandidate());
+        assertEquals(expCandiate, mix.getWatchFace());
     }
 
     @Test
     void changeRandom() {
         Candidate source = new Candidate();
-        when(random.nextInt(source.getCandidate().length())).thenReturn(10); // for changeRandom()
+        when(random.nextInt(source.getWatchFace().length())).thenReturn(10); // for changeRandom()
         when(random.nextInt(genAlg.getWatchfacePattern().getIncludedChar().length)).thenReturn(1); // for getRandomChar()
         Candidate candidate = genAlg.changeRandom(source);
 
         String expCandidate = "XXXXXXXXXXe|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX|XXXXXXXXXXX";
-        assertEquals(expCandidate, candidate.getCandidate());
+        assertEquals(expCandidate, candidate.getWatchFace());
     }
 }

@@ -111,19 +111,19 @@ public class GenAlg {
         }
     }
 
-    Solution createNewSolution() {
-        Solution solution = new Solution();
+    private Solution createNewSolution() {
+        Solution newSolution = new Solution();
 
         for (int i = 0; i < POPULATION_SIZE; i++) {
 
             if (i % 10 == 0) System.out.print(".");
             Candidate c = watchfacePattern.createRandom();
             calcFitness(c);
-            solution.getCandidates().add(c);
+            newSolution.getCandidates().add(c);
         }
         System.out.println();
 
-        return solution;
+        return newSolution;
     }
 
     void loadSolution(Path solutionFile) {
@@ -163,12 +163,12 @@ public class GenAlg {
     }
 
     Candidate mixTogether(Candidate left, Candidate right) {
-        int pos = getRand().nextInt(left.getCandidate().length());
+        int pos = getRand().nextInt(left.getWatchFace().length());
         return left.mixWith(right, pos);
     }
 
     Candidate changeRandom(Candidate source) {
-        int pos = getRand().nextInt(source.getCandidate().length());
+        int pos = getRand().nextInt(source.getWatchFace().length());
         char randomChar = getWatchfacePattern().getRandomChar();
 
         return source.changeChar(randomChar, pos);
