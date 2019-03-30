@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import timepiece.TimeNamesEnglish;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
@@ -60,6 +61,7 @@ public class GenAlg {
             try {
                 genThread.join();
             } catch (InterruptedException ignored) {
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -76,14 +78,13 @@ public class GenAlg {
                 log.info("saving solution");
                 saveSolution();
 
-                try {
-                    FileWriter out = new FileWriter("fittnes.txt", true);
+                try (FileWriter out = new FileWriter("fittnes.txt", true)) {
                     out.write("" + getSolution().getGeneration());
                     out.write("," + getSolution().getFittest().getFitnessScore());
                     out.write("," + getSolution().getFittest().getFitnessResult().getCheckedTimesNOK());
                     out.write("\n");
-                    out.close();
-                } catch (IOException ignored) {
+                } catch (IOException e) {
+                    log.error("Couldn't write to fitness.txt file", e);
                 }
             }
         }
@@ -147,7 +148,8 @@ public class GenAlg {
             JAXBContext jc = JAXBContext.newInstance(Solution.class);
             Marshaller ma = jc.createMarshaller();
             ma.marshal(this.getSolution(), new File("solution.xml"));
-        } catch (Exception ignored) {
+        } catch (JAXBException e) {
+            log.error("Solution could not be serialized", e);
         }
     }
 
