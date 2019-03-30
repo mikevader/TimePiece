@@ -1,7 +1,8 @@
 package timepiece.watchface;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.*;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @XmlRootElement
 public class Solution {
