@@ -82,7 +82,7 @@ class GenAlgTest {
         genAlg.setSolution(solution);
 
         Candidate candidate = new Candidate();
-        candidate.setFitness(10);
+        candidate.setFitnessScore(10);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
@@ -109,7 +109,7 @@ class GenAlgTest {
         genAlg.setSolution(solution);
 
         Candidate candidate = new Candidate();
-        candidate.setFitness(0);
+        candidate.setFitnessScore(0);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(0.0);
@@ -136,7 +136,7 @@ class GenAlgTest {
         genAlg.setSolution(solution);
 
         Candidate candidate = new Candidate();
-        candidate.setFitness(10);
+        candidate.setFitnessScore(10);
 
         when(random.nextInt(100)).thenReturn(1);
         when(random.nextDouble()).thenReturn(1.0);
@@ -212,7 +212,7 @@ class GenAlgTest {
         when(random.nextDouble()).thenReturn(0.0);
 
         Candidate candidate = new Candidate();
-        candidate.setFitness(20);
+        candidate.setFitnessScore(20);
 
         genAlg.addToSolution(candidate);
 

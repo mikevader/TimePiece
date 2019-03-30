@@ -96,7 +96,7 @@ public class Candidate implements Comparable<Candidate> {
     @Override
     public String toString() {
         return String.format("%10d: splits: %d, check ok: %d, nok: %d, times ok: %d, nok %d, %s",
-                fitness.getFitness(),
+                fitness.getScore(),
                 fitness.getSplitPos(),
                 fitness.getCheckedOK(),
                 fitness.getCheckedNOK(),
@@ -113,12 +113,12 @@ public class Candidate implements Comparable<Candidate> {
         this.fitness = fitness;
     }
 
-    int getFitness() {
-        return fitness.getFitness();
+    int getFitnessScore() {
+        return fitness.getScore();
     }
 
-    void setFitness(int fitness) {
-        this.fitness.setFitness(fitness);
+    void setFitnessScore(int fitness) {
+        this.fitness.setScore(fitness);
     }
 
     public String getCandidate() {
@@ -154,8 +154,8 @@ public class Candidate implements Comparable<Candidate> {
     @Override
     public int compareTo(Candidate o) {
         return Integer.compare(
-                o.getFitness(),
-                getFitness());
+                o.getFitnessScore(),
+                getFitnessScore());
     }
 
     @Override

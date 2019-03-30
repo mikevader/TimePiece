@@ -68,7 +68,7 @@ public class CandidateTestBuilder {
         Candidate candidate = new Candidate();
 
         candidate.setCandidate(this.schema);
-        candidate.setFitness(fitness);
+        candidate.setFitnessScore(fitness);
 
         return candidate;
     }

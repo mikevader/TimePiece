@@ -3,7 +3,7 @@ package timepiece.watchface;
 import java.util.Objects;
 
 public class Fitness {
-    private int fitness;
+    private int score;
     private int checkedOK = 0;
     private int checkedNOK = 0;
     private int checkedTimesOK = 0;
@@ -12,8 +12,8 @@ public class Fitness {
     private double variance = 0;
     private double avgLen = 0;
 
-    private Fitness(int fitness, int checkedOK, int checkedNOK, int checkedTimesOK, int checkedTimesNOK, int splitPos, double variance, double avgLen) {
-        this.fitness = fitness;
+    private Fitness(int score, int checkedOK, int checkedNOK, int checkedTimesOK, int checkedTimesNOK, int splitPos, double variance, double avgLen) {
+        this.score = score;
         this.checkedOK = checkedOK;
         this.checkedNOK = checkedNOK;
         this.checkedTimesOK = checkedTimesOK;
@@ -24,15 +24,15 @@ public class Fitness {
     }
 
     Fitness() {
-        this.fitness = Integer.MIN_VALUE;
+        this.score = Integer.MIN_VALUE;
     }
 
-    int getFitness() {
-        return fitness;
+    int getScore() {
+        return score;
     }
 
-    void setFitness(int fitness) {
-        this.fitness = fitness;
+    void setScore(int score) {
+        this.score = score;
     }
 
     int getCheckedOK() {
@@ -63,8 +63,8 @@ public class Fitness {
         return avgLen;
     }
 
-    static Fitness createFitness(int fitness, int checkedOK, int checkedNOK, int checkedTimesOK, int checkedTimesNOK, int splitPos, double variance, double avgLen) {
-        return new Fitness(fitness, checkedOK, checkedNOK, checkedTimesOK, checkedTimesNOK, splitPos, variance, avgLen);
+    static Fitness createFitness(int score, int checkedOK, int checkedNOK, int checkedTimesOK, int checkedTimesNOK, int splitPos, double variance, double avgLen) {
+        return new Fitness(score, checkedOK, checkedNOK, checkedTimesOK, checkedTimesNOK, splitPos, variance, avgLen);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class Fitness {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Fitness fitness1 = (Fitness) o;
-        return fitness == fitness1.fitness &&
+        return score == fitness1.score &&
                 checkedOK == fitness1.checkedOK &&
                 checkedNOK == fitness1.checkedNOK &&
                 checkedTimesOK == fitness1.checkedTimesOK &&
@@ -85,6 +85,6 @@ public class Fitness {
     @Override
     public int hashCode() {
 
-        return Objects.hash(fitness, checkedOK, checkedNOK, checkedTimesOK, checkedTimesNOK, splitPos, variance, avgLen);
+        return Objects.hash(score, checkedOK, checkedNOK, checkedTimesOK, checkedTimesNOK, splitPos, variance, avgLen);
     }
 }

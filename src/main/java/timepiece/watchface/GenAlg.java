@@ -79,7 +79,7 @@ public class GenAlg {
                 try {
                     FileWriter out = new FileWriter("fittnes.txt", true);
                     out.write("" + getSolution().getGeneration());
-                    out.write("," + getSolution().getFittest().getFitness());
+                    out.write("," + getSolution().getFittest().getFitnessScore());
                     out.write("," + getSolution().getFittest().getFitnessResult().getCheckedTimesNOK());
                     out.write("\n");
                     out.close();
@@ -90,12 +90,12 @@ public class GenAlg {
     }
 
     boolean doAdd(Candidate candidate) {
-        int max = getSolution().getFittest().getFitness();
-        int min = getSolution().getWorst().getFitness();
+        int max = getSolution().getFittest().getFitnessScore();
+        int min = getSolution().getWorst().getFitnessScore();
         if (max == min) return true;
-        if (candidate.getFitness() < min) return getRand().nextInt(100) < 10;
+        if (candidate.getFitnessScore() < min) return getRand().nextInt(100) < 10;
 
-        double prob = (candidate.getFitness() - min) / (max - min) + 0.1;
+        double prob = (candidate.getFitnessScore() - min) / (max - min) + 0.1;
         return getRand().nextDouble() < prob;
     }
 

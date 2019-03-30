@@ -15,7 +15,7 @@ class FitnessCalculator {
     private static final int VARIANCE_PENALTY = 1;
 
     Fitness calculate(Candidate candidate, WatchfacePattern watchfacePattern) {
-        int fitness = 0;
+        int score = 0;
         int checkedOK = 0;
         int checkedNOK = 0;
         int checkedTimesOK = 0;
@@ -29,18 +29,18 @@ class FitnessCalculator {
                     Matcher m = timeRegEx.matcher(candidate.getCandidate());
                     if (m.matches()) {
                         oneFound = true;
-                        fitness += MATCH_BONUS;
+                        score += MATCH_BONUS;
                         checkedOK++;
                         for (int i = 1; i <= m.groupCount(); i++) {
                             splitPos.add(m.start(i));
                         }
                     } else {
-                        fitness += NOT_MATCHED_PENALTY;
+                        score += NOT_MATCHED_PENALTY;
                         checkedNOK++;
                     }
                 }
                 if (!oneFound) {
-                    fitness += NONE_FOUND_PENALTY;
+                    score += NONE_FOUND_PENALTY;
                     checkedTimesNOK++;
                 } else {
                     checkedTimesOK++;
@@ -51,7 +51,7 @@ class FitnessCalculator {
         for (Pattern word : watchfacePattern.getWordPatterns()) {
             Matcher m = word.matcher(candidate.getCandidate());
             if (m.matches()) {
-                fitness += WORD_MATCH_BONUS;
+                score += WORD_MATCH_BONUS;
             }
         }
 
@@ -76,12 +76,12 @@ class FitnessCalculator {
         variance = Math.sqrt(variance);
 
         if (checkedNOK == 0) {
-            fitness = fitness + (100 - splitPos.size()) * LOW_SPLIT_BONUS;
-            fitness = (int)(fitness - variance * VARIANCE_PENALTY);
+            score = score + (100 - splitPos.size()) * LOW_SPLIT_BONUS;
+            score = (int)(score - variance * VARIANCE_PENALTY);
         }
 
         Fitness fitnessResult = Fitness.createFitness(
-                fitness,
+                score,
                 checkedOK,
                 checkedNOK,
                 checkedTimesOK,

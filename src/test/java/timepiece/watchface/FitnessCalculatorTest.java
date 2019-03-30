@@ -39,7 +39,7 @@ class FitnessCalculatorTest {
         Fitness result = fitnessCalculator.calculate(candidate, watchfacePattern);
 
         assertNotNull(result);
-        assertEquals(-1443120, result.getFitness());
+        assertEquals(-1443120, result.getScore());
         assertEquals(0, result.getCheckedTimesOK());
         assertEquals(144, result.getCheckedTimesNOK());
         assertEquals(0, result.getCheckedOK());
@@ -60,7 +60,7 @@ class FitnessCalculatorTest {
         Fitness result = fitnessCalculator.calculate(candidate, watchfacePattern);
 
         assertNotNull(result);
-        assertEquals(-1432090, result.getFitness());
+        assertEquals(-1432090, result.getScore());
         assertEquals(1, result.getCheckedTimesOK());
         assertEquals(143, result.getCheckedTimesNOK());
         assertEquals(1, result.getCheckedOK());
@@ -82,7 +82,7 @@ class FitnessCalculatorTest {
         Fitness result = fitnessCalculator.calculate(candidate, watchfacePattern);
 
         assertNotNull(result);
-        assertEquals(-1431060, result.getFitness());
+        assertEquals(-1431060, result.getScore());
         assertEquals(1, result.getCheckedTimesOK());
         assertEquals(143, result.getCheckedTimesNOK());
         assertEquals(2, result.getCheckedOK());
@@ -101,7 +101,7 @@ class FitnessCalculatorTest {
         Fitness result = fitnessCalculator.calculate(candidate, watchfacePattern);
 
         assertNotNull(result);
-        assertEquals(201100, result.getFitness());
+        assertEquals(201100, result.getScore());
         assertEquals(144, result.getCheckedTimesOK());
         assertEquals(0, result.getCheckedTimesNOK());
         assertEquals(202, result.getCheckedOK());
