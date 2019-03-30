@@ -32,7 +32,7 @@ public class GenAlg {
     private void run() {
 
         log.info("creating patterns");
-        this.watchfacePattern = patternGenerator.createPatterns(TimeNamesEnglish.getTimeStrings());
+        this.watchfacePattern = patternGenerator.createPatterns(TimeNamesEnglish.getTimeStrings2());
 
         log.info("loading solution");
         loadSolution();

@@ -1,5 +1,6 @@
 package timepiece;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -76,6 +77,50 @@ public class TimeNamesEnglish {
 
             String nextHour = hour == hours.length - 1 ? hours[0] : hours[hour + 1];
             times[hour][9].add(String.format("quarter to %s", nextHour).trim());
+        }
+
+        return times;
+    }
+
+    public static List<String>[][] getTimeStrings2() {
+        String[] hours = {
+                "twelve",
+                "one",
+                "two",
+                "three",
+                "four",
+                "five",
+                "six",
+                "seven",
+                "eight",
+                "nine",
+                "ten",
+                "eleven"
+        };
+
+        String[] minutes = {
+                "%s o clock",
+                "five past %s",
+                "ten past %s",
+                "quarter past %s",
+                "twenty past %s",
+                "twenty five past %s",
+                "half past %s",
+                "twenty five to %s",
+                "twenty to %s",
+                "quarter to %s",
+                "ten to %s",
+                "five to %s"
+        };
+
+        List<String>[][] times = new List[12][];
+        for (int h = 0; h < times.length; h++) {
+            times[h] = new List[12];
+            for (int m = 0; m < times[h].length; m++) {
+                String hour = hours[(h + m/7) % 12];
+                String minute = minutes[m];
+                times[h][m] = Collections.singletonList(String.format(minute, hour));
+            }
         }
 
         return times;
